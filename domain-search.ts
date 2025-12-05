@@ -67,10 +67,10 @@ export function buildFundingQuery(options: FundingSearchOptions): string {
     countries.length > 0 ? `in ${countries.join(" or ")}` : "worldwide";
   const industryFragment = options.industry
     ? `for ${options.industry}`
-    : "for AI startups and research";
+    : "for AI startups and research companies";
   const keywordFragment = options.keywords ? ` ${options.keywords}` : "";
 
-  return `AI funding opportunities ${industryFragment} ${countryFragment}${keywordFragment} grants OR subsidies OR programs application deadline`;
+  return `AI startup and research funding: grants, non-dilutive subsidies, accelerator stipends, and government programs ${industryFragment} ${countryFragment}${keywordFragment} with application deadlines and eligibility`;
 }
 
 function extractOpportunityObjects(parsed: any): any[] {
@@ -144,8 +144,12 @@ export async function findFundingOpportunities(
     const repaired = await repairFundingSummary({
       summary: (r as any).summary,
       url: r.url,
-      title: r.title,
-      text: r.text ?? (Array.isArray((r as any).highlights) ? (r as any).highlights.join(" ") : ""),
+      title: r.title ?? "",
+      text:
+        r.text ??
+        (Array.isArray((r as any).highlights)
+          ? (r as any).highlights.join(" ")
+          : ""),
       countries: normalizedCountries,
       industry: options.industry ?? "Artificial Intelligence",
     });

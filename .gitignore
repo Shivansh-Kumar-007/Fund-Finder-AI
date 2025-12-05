@@ -4,3 +4,4 @@ node_modules
 dist
 funding-opportunities.json
 .DS_Store
+.env
