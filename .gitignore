@@ -1,0 +1,6 @@
+node_modules
+*.log
+*.tmp
+dist
+funding-opportunities.json
+.DS_Store
