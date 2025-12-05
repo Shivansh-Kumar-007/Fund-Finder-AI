@@ -13,12 +13,6 @@ export type FundingSearchOptions = {
   numResults?: number;
 };
 
-type SummaryFallback = {
-  url: string;
-  title?: string;
-  text?: string;
-};
-
 const fundingSummarySchema = {
   $schema: "http://json-schema.org/draft-07/schema#",
   title: "Funding Opportunities",
@@ -89,71 +83,23 @@ function extractOpportunityObjects(parsed: any): any[] {
   return [];
 }
 
-function parseSummary(summary: unknown): Partial<FundingOpportunity>[] {
+function parseSummary(summary: unknown): FundingOpportunity[] {
   if (typeof summary !== "string") return [];
   try {
     const parsed = JSON.parse(summary);
     const candidates = extractOpportunityObjects(parsed);
-    const partialSchema = fundingOpportunitySchema.partial();
-    return candidates
-      .map((candidate) => {
-        const validated = partialSchema.safeParse(candidate);
-        if (validated.success) {
-          return validated.data;
-        }
-        return candidate && typeof candidate === "object"
-          ? (candidate as Partial<FundingOpportunity>)
-          : {};
-      })
-      .filter((candidate) => Object.keys(candidate).length > 0);
+    const valid: FundingOpportunity[] = [];
+    for (const candidate of candidates) {
+      const result = fundingOpportunitySchema.safeParse(candidate);
+      if (result.success) {
+        valid.push(result.data);
+      }
+    }
+    return valid;
   } catch (error) {
     console.error("Failed to parse Exa summary:", error);
     return [];
   }
-}
-
-function normalizeOpportunity(
-  raw: Partial<FundingOpportunity>,
-  fallback: SummaryFallback,
-  defaults: { industry: string; countries: string[] }
-): FundingOpportunity | null {
-  const name = (raw.name ?? fallback.title ?? fallback.url ?? "").trim();
-  const website = (raw.website ?? fallback.url ?? "").trim();
-  const summary = (raw.summary ?? fallback.text ?? "").trim();
-
-  if (!name || !website || !summary) {
-    return null;
-  }
-
-  const countriesFromRaw = normalizeCountries(raw.applicableCountries);
-  const countriesFromAlternate = normalizeCountries(
-    (raw as any).countries ?? (raw as any).applicableCountry
-  );
-  const countries =
-    countriesFromRaw.length > 0
-      ? countriesFromRaw
-      : countriesFromAlternate.length > 0
-      ? countriesFromAlternate
-      : defaults.countries;
-
-  const fundingAmount = (
-    raw.fundingAmount ??
-    (raw as any).amount ??
-    (raw as any).value ??
-    ""
-  )
-    .toString()
-    .trim();
-
-  return {
-    name,
-    website,
-    applicableCountries:
-      countries && countries.length > 0 ? countries : defaults.countries,
-    relevantIndustry: (raw.relevantIndustry ?? defaults.industry).trim(),
-    fundingAmount: fundingAmount.length > 0 ? fundingAmount : undefined,
-    summary: summary.length > 600 ? `${summary.slice(0, 597)}...` : summary,
-  };
 }
 
 function dedupe(opportunities: FundingOpportunity[]): FundingOpportunity[] {
@@ -173,10 +119,6 @@ export async function findFundingOpportunities(
 ): Promise<FundingOpportunity[]> {
   const query = options.query ?? buildFundingQuery(options);
   const numResults = options.numResults ?? DEFAULT_NUM_RESULTS;
-  const defaults = {
-    industry: options.industry ?? "Artificial Intelligence",
-    countries: normalizeCountries(options.countries),
-  };
 
   const res = await exa.searchAndContents(query, {
     summary: { schema: fundingSummarySchema },
@@ -190,31 +132,12 @@ export async function findFundingOpportunities(
   const opportunities: FundingOpportunity[] = [];
 
   for (const r of res.results) {
-    const fallback: SummaryFallback = {
-      url: r.url,
-      title: r.title ?? "",
-      text:
-        r.text ??
-        (Array.isArray((r as any).highlights)
-          ? (r as any).highlights.join(" ")
-          : ""),
-    };
     const structured = parseSummary((r as any).summary);
-    const normalized = structured
-      .map((candidate) => normalizeOpportunity(candidate, fallback, defaults))
-      .filter(
-        (candidate): candidate is FundingOpportunity => candidate !== null
-      );
-
-    if (normalized.length > 0) {
-      opportunities.push(...normalized);
-      continue;
-    }
-
-    const fallbackOpportunity = normalizeOpportunity({}, fallback, defaults);
-    if (fallbackOpportunity) {
-      opportunities.push(fallbackOpportunity);
-    }
+    opportunities.push(
+      ...structured.filter(
+        (candidate): candidate is FundingOpportunity => Boolean(candidate)
+      )
+    );
   }
 
   return dedupe(opportunities).slice(0, numResults);
