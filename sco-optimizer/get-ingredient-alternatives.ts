@@ -28,7 +28,6 @@ export interface GetAlternativesParams {
   locationName: string;
   productDescription?: string;
   ingredientFunction?: string;
-  excludedIngredients?: string[];
 }
 
 export interface AlternativeResult {
@@ -36,6 +35,7 @@ export interface AlternativeResult {
   countryCode: string;
   countryName: string;
   url: string;
+  reason?: string;
 }
 
 const altIngLocItem = z.object({
@@ -43,6 +43,7 @@ const altIngLocItem = z.object({
   countryCode: z.string(),
   countryName: z.string(),
   url: z.string(),
+  reason: z.string().optional(),
   source: z.string().optional(),
   efChangePercentage: z.number().nullable().optional(),
 });
@@ -216,7 +217,13 @@ async function sanitizeCandidates(
   merged: AltIngLoc[]
 ): Promise<{ altIngLocs: AltIngLoc[] }> {
   const sanitized = await callOpenAIJson(
-    z.object({ altIngLocs: altIngLocsSchema }),
+    z.object({
+      altIngLocs: z.array(
+        altIngLocItem.extend({
+          reason: z.string().optional(),
+        })
+      ),
+    }),
     {
       model: "gpt-4o",
       system: `
@@ -231,6 +238,7 @@ async function sanitizeCandidates(
            </example>
         2. Dedupe the data
         3. Limit to only 5 entries - Prefer entries with non-empty countryName.
+        4. For each item, include a short reason explaining why it is a suitable alternative (max 15 words).
       `.trim(),
       prompt: JSON.stringify(merged),
     }
@@ -255,21 +263,16 @@ async function fetchAndNormalizeResults({
   ingredientName,
   withinQuery,
   outsideQuery,
-  excludedIngredients,
 }: {
   ingredientName: string;
   withinQuery: string;
   outsideQuery: string;
-  excludedIngredients: string[];
 }): Promise<AltIngLoc[]> {
   const withinResultsArrays =
-    (await searchAltIngLocs(withinQuery, excludedIngredients)) ?? [];
+    (await searchAltIngLocs(withinQuery, [])) ?? [];
 
   const outsideResultsArrays =
-    (await searchAltIngLocs(
-      outsideQuery,
-      excludedIngredients.filter((ing) => ing !== ingredientName)
-    )) ?? [];
+    (await searchAltIngLocs(outsideQuery, [])) ?? [];
 
   // Combine and deduplicate
   const allAlternatives = [...withinResultsArrays, ...outsideResultsArrays];
@@ -310,7 +313,6 @@ export async function getIngredientAlternatives(
     locationName,
     productDescription = "",
     ingredientFunction,
-    excludedIngredients = [],
   } = params;
 
   // Step 1: Build search queries using OpenAI
@@ -326,7 +328,6 @@ export async function getIngredientAlternatives(
     ingredientName,
     withinQuery: queries.queryWithinLocation,
     outsideQuery: queries.queryOutsideLocation,
-    excludedIngredients,
   });
 
   // Step 3: Sanitize candidates

@@ -11,25 +11,17 @@ export class AlternativesController {
     @Query("ingredient") ingredient?: string,
     @Query("location") location?: string,
     @Query("productDescription") productDescription?: string,
-    @Query("ingredientFunction") ingredientFunction?: string,
-    @Query("exclude") exclude?: string
+    @Query("ingredientFunction") ingredientFunction?: string
   ) {
     if (!ingredient || !location) {
       throw new BadRequestException("ingredient and location are required query params");
     }
-
-    const excludedIngredients =
-      exclude
-        ?.split(",")
-        .map((item) => item.trim())
-        .filter(Boolean) ?? [];
 
     const alternatives = await this.alternativesService.findAlternatives({
       ingredientName: ingredient,
       locationName: location,
       productDescription: productDescription ?? "",
       ingredientFunction: ingredientFunction ?? undefined,
-      excludedIngredients,
     });
 
     return {
@@ -38,7 +30,6 @@ export class AlternativesController {
         location,
         productDescription: productDescription ?? "",
         ingredientFunction: ingredientFunction ?? undefined,
-        excludedIngredients,
       },
       count: alternatives.length,
       alternatives,
