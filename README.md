@@ -16,9 +16,9 @@ npm install
 ## Run
 
 ```bash
-EXA_API_KEY=your_key npm start -- --countries "US,Canada" --industry "healthcare AI" --limit 10
+EXA_API_KEY=your_key npm run cli -- --countries "US,Canada" --industry "healthcare AI" --limit 10
 # or set values in .env (EXA_API_KEY, OPENAI_API_KEY, PORT) and just run:
-# npm start -- --countries "US,Canada" --industry "healthcare AI" --limit 10
+# npm run cli -- --countries "US,Canada" --industry "healthcare AI" --limit 10
 ```
 
 Flags:
@@ -37,7 +37,7 @@ Results are printed to stdout and written as JSON.
 Start the API (default port 3000):
 
 ```bash
-EXA_API_KEY=your_key npm run start:api
+EXA_API_KEY=your_key npm start
 # or use .env with EXA_API_KEY, OPENAI_API_KEY, and optional PORT
 ```
 
