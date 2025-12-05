@@ -1,4 +1,5 @@
-import { resolve } from "node:path";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 export type ScriptArgs = {
   query?: string;
@@ -25,6 +26,9 @@ export const formatWarning = (text: string) => `${ansi.bold}${ansi.yellow}${text
 export const formatSuccess = (text: string) => `${ansi.bold}${ansi.green}${text}${ansi.reset}`;
 export const formatError = (text: string) => `${ansi.bold}${ansi.red}${text}${ansi.reset}`;
 export const formatInfo = (text: string) => `${ansi.bold}${ansi.cyan}${text}${ansi.reset}`;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export const OUTPUT_DIR = __dirname;
 export const DEFAULT_OUTPUT_PATH = resolve(OUTPUT_DIR, "funding-opportunities.json");
