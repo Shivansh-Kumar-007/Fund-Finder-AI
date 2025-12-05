@@ -41,17 +41,27 @@ EXA_API_KEY=your_key npm start
 # or use .env with EXA_API_KEY, OPENAI_API_KEY, and optional PORT
 ```
 
-GET `/funding` query params:
-- `query`: override the search query text.
-- `countries`: comma-separated list.
-- `industry`: industry focus text.
-- `keywords`: extra keywords to append.
-- `limit`: max results (default 12).
+Endpoints:
 
-Example:
+- `GET /funding` query params:
+  - `query`: override the search query text.
+  - `countries`: comma-separated list.
+  - `industry`: industry focus text.
+  - `keywords`: extra keywords to append.
+  - `limit`: max results (default 12).
+- `GET /alternatives` query params:
+  - `ingredient` (required): ingredient name.
+  - `location` (required): country/location name.
+  - `productDescription`: optional product description context.
+  - `ingredientFunction`: optional functional role in the product.
+  - `exclude`: optional comma-separated ingredients to exclude.
+
+Examples:
 
 ```
 curl "http://localhost:3000/funding?countries=US,Canada&industry=healthcare%20AI&limit=8"
+
+curl "http://localhost:3000/alternatives?ingredient=skimmed%20milk%20powder&location=New%20Zealand&productDescription=ice%20cream&ingredientFunction=protein%20source"
 ```
 
 Response:
