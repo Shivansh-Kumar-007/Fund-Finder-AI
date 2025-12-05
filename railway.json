@@ -1,4 +1,4 @@
 {
-  "build": "cd fund-finder-script && npm ci",
-  "start": "cd fund-finder-script && npm start"
+  "build": "npm ci",
+  "start": "npm start"
 }
