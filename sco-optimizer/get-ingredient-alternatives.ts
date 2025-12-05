@@ -2,22 +2,24 @@
  * Standalone Ingredient Alternatives Generator
  *
  * This file contains all the necessary code to find ingredient alternatives
- * using OpenAI (official SDK) and Exa web search.
+ * using OpenAI and Exa web search. It's self-contained and can be copied
+ * to another repository.
  *
  * Required packages (add to package.json):
- * - "openai"
- * - "exa-js"
- * - "zod"
+ * - "@ai-sdk/openai": "^1.0.0"
+ * - "ai": "^4.0.0"
+ * - "exa-js": "^1.0.0"
+ * - "zod": "^3.0.0"
  *
  * Required environment variables:
  * - OPENAI_API_KEY: Your OpenAI API key
  * - EXA_API_KEY: Your Exa API key
  */
 
-import OpenAI from "openai";
-import { z } from "zod";
-
-import { getExa } from "../exa-client";
+import { openai } from "@ai-sdk/openai";
+import { generateObject, generateText, stepCountIs, tool } from "ai";
+import Exa from "exa-js";
+import z from "zod";
 
 // ============================================================================
 // Type Definitions
@@ -28,6 +30,7 @@ export interface GetAlternativesParams {
   locationName: string;
   productDescription?: string;
   ingredientFunction?: string;
+  excludedIngredients?: string[];
 }
 
 export interface AlternativeResult {
@@ -35,7 +38,6 @@ export interface AlternativeResult {
   countryCode: string;
   countryName: string;
   url: string;
-  reason?: string;
 }
 
 const altIngLocItem = z.object({
@@ -43,14 +45,13 @@ const altIngLocItem = z.object({
   countryCode: z.string(),
   countryName: z.string(),
   url: z.string(),
-  reason: z.string().optional(),
   source: z.string().optional(),
   efChangePercentage: z.number().nullable().optional(),
 });
 
 type AltIngLoc = z.infer<typeof altIngLocItem>;
 
-const altIngLocsSchema = z.array(altIngLocItem).max(5);
+const altIngLocsSchema = z.array(altIngLocItem).max(20);
 
 const ingLocsSchema = z.object({
   altIngLocs: z.array(
@@ -67,16 +68,13 @@ const ingLocsSchema = z.object({
 // Exa Web Search Setup
 // ============================================================================
 
-function getExaClient() {
-  return getExa();
-}
+const exa = new Exa(process.env.EXA_API_KEY);
 
 async function searchAltIngLocs(query: string, exclusions: string[] = []) {
   const exclusionString = exclusions.map((term) => `-"${term}"`).join(" ");
   const fullQuery =
     exclusions.length > 0 ? `${query} ${exclusionString}`.trim() : query;
 
-  const exa = getExaClient();
   const result = await exa.searchAndContents(fullQuery, {
     summary: {
       schema: ingLocsSchema,
@@ -114,39 +112,16 @@ async function searchAltIngLocs(query: string, exclusions: string[] = []) {
     .filter(Boolean);
 }
 
-// ============================================================================
-// OpenAI Client Helpers
-// ============================================================================
-
-function getOpenAIClient(): OpenAI {
-  if (!process.env.OPENAI_API_KEY) {
-    throw new Error("OPENAI_API_KEY environment variable is required");
-  }
-  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-}
-
-async function callOpenAIJson<T>(
-  schema: z.ZodType<T>,
-  options: { system: string; prompt: string; model?: string }
-): Promise<T> {
-  const client = getOpenAIClient();
-  const response = await client.chat.completions.create({
-    model: options.model ?? "gpt-4o-mini",
-    response_format: { type: "json_object" },
-    messages: [
-      { role: "system", content: options.system },
-      { role: "user", content: options.prompt },
-    ],
-  });
-
-  const content = response.choices[0]?.message?.content;
-  if (!content) {
-    throw new Error("OpenAI returned an empty response");
-  }
-
-  const parsed = JSON.parse(content);
-  return schema.parse(parsed);
-}
+const webSearch = tool({
+  description: "Search the web with exclusions and filters",
+  inputSchema: z.object({
+    query: z.string(),
+    excludeTerms: z.array(z.string()).default([]),
+  }),
+  async execute({ query, excludeTerms }) {
+    return searchAltIngLocs(query, excludeTerms);
+  },
+});
 
 // ============================================================================
 // Helper Functions
@@ -173,27 +148,28 @@ async function buildSearchQueries({
             Return two queries - one that focuses on alternatives found within the same location that the ingredient is currently sourced from and another that focuses on alternatives found outside the current location.
             `;
 
-  const queries = await callOpenAIJson(
-    z.object({
+  const { object: queries } = await generateObject({
+    model: openai("gpt-4o-mini"),
+    system: `
+    You are a web search query generator. You are given a product description, an ingredient name, its sourcing location and its function in the product.
+    Return web search queries using the provided templates. No prose.
+    Use the following templates:
+    for alternatives sourced within the same location use ${template1}
+    for alternatives sourced outside the current location use ${template2}
+
+    Do not output any prose or explanation — only the two query strings in the expected schema.
+    `,
+    prompt: prompt,
+    schema: z.object({
       queryWithinLocation: z.string(),
       queryOutsideLocation: z.string(),
     }),
-    {
-      model: "gpt-4o-mini",
-      system: `
-        You are a web search query generator. You are given a product description, an ingredient name, its sourcing location and its function in the product.
-        Return web search queries using the provided templates. No prose.
-        Use the following templates:
-        for alternatives sourced within the same location use ${template1}
-        for alternatives sourced outside the current location use ${template2}
+  });
 
-        Do not output any prose or explanation — only the two query strings in the expected schema.
-      `,
-      prompt,
-    }
-  );
-
-  return queries;
+  return {
+    queryWithinLocation: queries.queryWithinLocation ?? "",
+    queryOutsideLocation: queries.queryOutsideLocation ?? "",
+  };
 }
 
 function sortByCountryNamePresence<T extends { countryName?: string | null }>(
@@ -216,35 +192,29 @@ function sortByCountryNamePresence<T extends { countryName?: string | null }>(
 async function sanitizeCandidates(
   merged: AltIngLoc[]
 ): Promise<{ altIngLocs: AltIngLoc[] }> {
-  const sanitized = await callOpenAIJson(
-    z.object({
-      altIngLocs: z.array(
-        altIngLocItem.extend({
-          reason: z.string().optional(),
-        })
-      ),
-    }),
-    {
-      model: "gpt-4o",
-      system: `
-        You are a specialized content sanitizer and formatter. You have to do the following:
-        1. Sanitize Data
-           a. ingredient names have to be specific, not vague.
-           <example>
-            <vaguename>whole milk alternatives</vaguename>
-            <vaguename>egg yolk alternatives</vaguename>
-            <specificname>almond milk</specificname>
-            <specificname>Oat milk</specificname>
-           </example>
-        2. Dedupe the data
-        3. Limit to only 5 entries - Prefer entries with non-empty countryName.
-        4. For each item, include a short reason explaining why it is a suitable alternative (max 15 words).
-      `.trim(),
-      prompt: JSON.stringify(merged),
-    }
-  );
+  const { object: sanitized } = await generateObject({
+    model: openai("gpt-4o"),
+    system: `
+    You are a specialized content sanitizer and formatter. You have to do the following
+    1. Sanitize Data
+       a. ingredient names have to be specific, not vague.
+       <example>
+        <vaguename>whole milk alternatives</vaguename>
+        <vaguename>egg yolk alternatives</vaguename>
+        <specificname>almond milk</specificname>
+        <specificname>Oat milk</specificname>
+       </example>
+    2. Dedupe the data
+    3. Limit to only 5 entries - Prefer entries with non-empty countryName.
 
-  return sanitized;
+    `.trim(),
+    prompt: JSON.stringify(merged),
+    schema: z.object({ altIngLocs: altIngLocsSchema }),
+  });
+
+  return {
+    altIngLocs: sanitized.altIngLocs ?? [],
+  };
 }
 
 function dedupe(items: AltIngLoc[]): AltIngLoc[] {
@@ -263,16 +233,62 @@ async function fetchAndNormalizeResults({
   ingredientName,
   withinQuery,
   outsideQuery,
+  excludedIngredients,
 }: {
   ingredientName: string;
   withinQuery: string;
   outsideQuery: string;
+  excludedIngredients: string[];
 }): Promise<AltIngLoc[]> {
-  const withinResultsArrays =
-    (await searchAltIngLocs(withinQuery, [])) ?? [];
+  // Search within the same location
+  const { text: withinResults } = await generateText({
+    model: openai("gpt-4o-mini"),
+    prompt: `${withinQuery} Exclude ${excludedIngredients.join(", ")}`,
+    tools: { webSearch },
+    stopWhen: stepCountIs(4),
+  });
 
-  const outsideResultsArrays =
-    (await searchAltIngLocs(outsideQuery, [])) ?? [];
+  const { object: withinResultsObj } = await generateObject({
+    model: openai("gpt-4o-mini"),
+    schema: z.object({
+      results: z.array(
+        z.object({
+          ingredientName: z.string(),
+          countryCode: z.string(),
+          countryName: z.string(),
+          url: z.string(),
+        })
+      ),
+    }),
+    prompt: withinResults,
+  });
+  const withinResultsArrays = withinResultsObj?.results ?? [];
+
+  // Search outside the current location
+  const { text: outsideResults } = await generateText({
+    model: openai("gpt-4o-mini"),
+    prompt: `${outsideQuery} Exclude ${excludedIngredients
+      .filter((ing) => ing !== ingredientName)
+      .join(", ")}`,
+    tools: { webSearch },
+    stopWhen: stepCountIs(4),
+  });
+
+  const { object: outsideResultsObj } = await generateObject({
+    model: openai("gpt-4o-mini"),
+    schema: z.object({
+      results: z.array(
+        z.object({
+          ingredientName: z.string(),
+          countryCode: z.string(),
+          countryName: z.string(),
+          url: z.string(),
+        })
+      ),
+    }),
+    prompt: outsideResults,
+  });
+  const outsideResultsArrays = outsideResultsObj?.results ?? [];
 
   // Combine and deduplicate
   const allAlternatives = [...withinResultsArrays, ...outsideResultsArrays];
@@ -313,6 +329,7 @@ export async function getIngredientAlternatives(
     locationName,
     productDescription = "",
     ingredientFunction,
+    excludedIngredients = [],
   } = params;
 
   // Step 1: Build search queries using OpenAI
@@ -328,10 +345,16 @@ export async function getIngredientAlternatives(
     ingredientName,
     withinQuery: queries.queryWithinLocation,
     outsideQuery: queries.queryOutsideLocation,
+    excludedIngredients,
   });
 
   // Step 3: Sanitize candidates
   const sanitized = await sanitizeCandidates(alternatives);
 
-  return sanitized.altIngLocs;
+  return sanitized.altIngLocs.map((item) => ({
+    ingredientName: item.ingredientName ?? "",
+    countryCode: item.countryCode ?? "",
+    countryName: item.countryName ?? "",
+    url: item.url ?? "",
+  }));
 }

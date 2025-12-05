@@ -1,9 +1,6 @@
 import { DEFAULT_NUM_RESULTS } from "./config";
 import { getExa } from "./exa-client";
-import {
-  FundingOpportunity,
-  fundingOpportunitySchema,
-} from "./funding-output-schema";
+import { FundingOpportunity, fundingOpportunitySchema } from "./funding-output-schema";
 import { repairFundingSummary } from "./llm-repair";
 
 export type FundingSearchOptions = {
@@ -63,11 +60,8 @@ function normalizeCountries(countries?: string[]): string[] {
 
 export function buildFundingQuery(options: FundingSearchOptions): string {
   const countries = normalizeCountries(options.countries);
-  const countryFragment =
-    countries.length > 0 ? `in ${countries.join(" or ")}` : "worldwide";
-  const industryFragment = options.industry
-    ? `for ${options.industry}`
-    : "for AI startups and research companies";
+  const countryFragment = countries.length > 0 ? `in ${countries.join(" or ")}` : "worldwide";
+  const industryFragment = options.industry ? `for ${options.industry}` : "for AI startups and research companies";
   const keywordFragment = options.keywords ? ` ${options.keywords}` : "";
 
   return `AI startup and research funding: grants, non-dilutive subsidies, accelerator stipends, and government programs ${industryFragment} ${countryFragment}${keywordFragment} with application deadlines and eligibility`;
@@ -77,8 +71,7 @@ function extractOpportunityObjects(parsed: any): any[] {
   if (!parsed) return [];
   if (Array.isArray(parsed)) return parsed;
   if (Array.isArray(parsed.opportunities)) return parsed.opportunities;
-  if (Array.isArray(parsed.fundingOpportunities))
-    return parsed.fundingOpportunities;
+  if (Array.isArray(parsed.fundingOpportunities)) return parsed.fundingOpportunities;
   if (parsed.opportunity) return [parsed.opportunity];
   if (parsed.fundingOpportunity) return [parsed.fundingOpportunity];
   return [];
@@ -115,9 +108,7 @@ function dedupe(opportunities: FundingOpportunity[]): FundingOpportunity[] {
   return result;
 }
 
-export async function findFundingOpportunities(
-  options: FundingSearchOptions
-): Promise<FundingOpportunity[]> {
+export async function findFundingOpportunities(options: FundingSearchOptions): Promise<FundingOpportunity[]> {
   const query = options.query ?? buildFundingQuery(options);
   const numResults = options.numResults ?? DEFAULT_NUM_RESULTS;
   const normalizedCountries = normalizeCountries(options.countries);
@@ -146,11 +137,7 @@ export async function findFundingOpportunities(
       summary: (r as any).summary,
       url: r.url,
       title: r.title ?? "",
-      text:
-        r.text ??
-        (Array.isArray((r as any).highlights)
-          ? (r as any).highlights.join(" ")
-          : ""),
+      text: r.text ?? (Array.isArray((r as any).highlights) ? (r as any).highlights.join(" ") : ""),
       countries: normalizedCountries,
       industry: options.industry ?? "Artificial Intelligence",
     });

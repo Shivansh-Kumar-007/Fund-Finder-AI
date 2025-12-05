@@ -80,13 +80,11 @@ const costFactorSchema = {
               },
               minAmount: {
                 type: "number",
-                description:
-                  "Minimum observed cost for exactly 1 weightUnit of the ingredient, when the source provides a range.",
+                description: "Minimum observed cost for exactly 1 weightUnit of the ingredient, when the source provides a range.",
               },
               maxAmount: {
                 type: "number",
-                description:
-                  "Maximum observed cost for exactly 1 weightUnit of the ingredient, when the source provides a range.",
+                description: "Maximum observed cost for exactly 1 weightUnit of the ingredient, when the source provides a range.",
               },
               currency: {
                 type: "string",
@@ -99,8 +97,7 @@ const costFactorSchema = {
               },
               evaluationMethod: {
                 type: "string",
-                description:
-                  "How the cost was determined (e.g., 'market price', 'wholesale', 'retail')",
+                description: "How the cost was determined (e.g., 'market price', 'wholesale', 'retail')",
               },
               assumptions: {
                 type: "string",
@@ -145,10 +142,7 @@ const costFactorSchema = {
   required: ["costFactor"],
 } as const;
 
-export async function domainPreferredSearch(
-  query: string,
-  opts?: SearchOptions
-): Promise<ExaResult[]> {
+export async function domainPreferredSearch(query: string, opts?: SearchOptions): Promise<ExaResult[]> {
   const numResults = opts?.numResults ?? 6;
   const res = await exa.searchAndContents(query, {
     summary: {
@@ -194,8 +188,7 @@ export async function generalSearch(query: string, opts?: SearchOptions): Promis
   const numResults = opts?.numResults ?? 6;
   const res = await exa.searchAndContents(query, {
     summary: {
-      query:
-        "Extract exact cost data with precise weight units (kg vs ton) as stated in the source",
+      query: "Extract exact cost data with precise weight units (kg vs ton) as stated in the source",
       schema: costFactorSchema,
     },
     numResults,

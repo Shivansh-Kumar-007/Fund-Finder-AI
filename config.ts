@@ -1,5 +1,4 @@
-import { resolve, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 
 export type ScriptArgs = {
   query?: string;
@@ -20,18 +19,26 @@ export const ansi = {
   red: "\x1b[31m",
 };
 
-export const colorLabel = (label: string) => `${ansi.bold}${ansi.yellow}${label}${ansi.reset}`;
-export const colorValue = (value: string) => `${ansi.cyan}${value}${ansi.reset}`;
-export const formatWarning = (text: string) => `${ansi.bold}${ansi.yellow}${text}${ansi.reset}`;
-export const formatSuccess = (text: string) => `${ansi.bold}${ansi.green}${text}${ansi.reset}`;
-export const formatError = (text: string) => `${ansi.bold}${ansi.red}${text}${ansi.reset}`;
-export const formatInfo = (text: string) => `${ansi.bold}${ansi.cyan}${text}${ansi.reset}`;
+export const colorLabel = (label: string) =>
+  `${ansi.bold}${ansi.yellow}${label}${ansi.reset}`;
+export const colorValue = (value: string) =>
+  `${ansi.cyan}${value}${ansi.reset}`;
+export const formatWarning = (text: string) =>
+  `${ansi.bold}${ansi.yellow}${text}${ansi.reset}`;
+export const formatSuccess = (text: string) =>
+  `${ansi.bold}${ansi.green}${text}${ansi.reset}`;
+export const formatError = (text: string) =>
+  `${ansi.bold}${ansi.red}${text}${ansi.reset}`;
+export const formatInfo = (text: string) =>
+  `${ansi.bold}${ansi.cyan}${text}${ansi.reset}`;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-export const OUTPUT_DIR = __dirname;
-export const DEFAULT_OUTPUT_PATH = resolve(OUTPUT_DIR, "funding-opportunities.json");
+// Use __dirname for CommonJS compatibility
+const OUTPUT_DIR = __dirname;
+export { OUTPUT_DIR };
+export const DEFAULT_OUTPUT_PATH = resolve(
+  OUTPUT_DIR,
+  "funding-opportunities.json"
+);
 export const DEFAULT_NUM_RESULTS = 12;
 
 function splitList(value: string | undefined): string[] {
@@ -42,7 +49,10 @@ function splitList(value: string | undefined): string[] {
     .filter(Boolean);
 }
 
-function ensurePositiveInteger(value: string | undefined, flag: string): number | undefined {
+function ensurePositiveInteger(
+  value: string | undefined,
+  flag: string
+): number | undefined {
   if (!value) return undefined;
   const parsed = Number(value);
   if (Number.isNaN(parsed) || parsed <= 0) {
@@ -109,7 +119,10 @@ export function parseArgs(argv: string[]): ScriptArgs {
       continue;
     }
     if (arg.startsWith("--limit=")) {
-      const value = ensurePositiveInteger(arg.split("=").slice(1).join("="), "--limit");
+      const value = ensurePositiveInteger(
+        arg.split("=").slice(1).join("="),
+        "--limit"
+      );
       if (value !== undefined) {
         args.limit = value;
       }

@@ -49,10 +49,7 @@ function normalizeSuppliers(
     // ignore
   }
 
-  const suppliersArray =
-    (parsed as any)?.suppliers && Array.isArray((parsed as any).suppliers)
-      ? (parsed as any).suppliers
-      : [];
+  const suppliersArray = (parsed as any)?.suppliers && Array.isArray((parsed as any).suppliers) ? (parsed as any).suppliers : [];
 
   const validated: Supplier[] = [];
   for (const s of suppliersArray) {
