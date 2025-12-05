@@ -192,7 +192,7 @@ export async function findFundingOpportunities(
   for (const r of res.results) {
     const fallback: SummaryFallback = {
       url: r.url,
-      title: r.title,
+      title: r.title ?? "",
       text:
         r.text ??
         (Array.isArray((r as any).highlights)
