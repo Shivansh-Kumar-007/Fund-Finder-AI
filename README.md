@@ -55,6 +55,14 @@ Endpoints:
   - `productDescription`: optional product description context.
   - `ingredientFunction`: optional functional role in the product.
   - `exclude`: optional comma-separated ingredients to exclude.
+- `GET /suppliers` query params:
+  - `ingredient` (required): ingredient name.
+  - `countries`: optional comma-separated list to bias search.
+  - `keywords`: optional extra search terms.
+  - `limit`: optional max results (default ~10).
+- `GET /costs` query params:
+  - `ingredient` (required): ingredient name.
+  - `location` (required): country/location name.
 
 Examples:
 
@@ -62,6 +70,10 @@ Examples:
 curl "http://localhost:3000/funding?countries=US,Canada&industry=healthcare%20AI&limit=8"
 
 curl "http://localhost:3000/alternatives?ingredient=skimmed%20milk%20powder&location=New%20Zealand&productDescription=ice%20cream&ingredientFunction=protein%20source"
+
+curl "http://localhost:3000/suppliers?ingredient=skimmed%20milk%20powder&countries=US,Canada&limit=5"
+
+curl "http://localhost:3000/costs?ingredient=skimmed%20milk%20powder&location=New%20Zealand"
 ```
 
 Response:

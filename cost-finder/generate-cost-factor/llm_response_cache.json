@@ -1,0 +1,78 @@
+{
+  "asphalt (standard hot mix)::AU": {
+    "qualityBand": "medium",
+    "qualityScore": 68.375,
+    "scoreJustification": "Recent (Nov 2025) regional price indexes from two market sources; consistent values but no Australia-specific data and sources are general market reports rather than local vendor quotes.",
+    "explanation": {
+      "reasoningAndMethodology": "No Australia-specific price was provided in the search results. I used the six regional USD/kg observations from the two provided sources (IMARC and BusinessAnalytIQ for Northeast Asia, Europe, North America). After verifying there were no extreme outliers, I calculated the central tendency using the median of the six USD/kg observations (0.47, 0.48, 0.51, 0.52, 0.62, 0.64) -> median = (0.51+0.52)/2 = 0.515 USD/kg, rounded to 0.52 USD/kg. Converted USD to AUD using an inferred exchange rate (1 USD = 1.50 AUD) because no FX rate was provided in the search results.",
+      "assumptions": "Australia price is not available so a fallback to global/regional market index central tendency is used. FX rate is inferred (1 USD = 1.50 AUD). Rounding applied to two decimals."
+    },
+    "costInUSD": 0.52,
+    "costInLocalCurrency": 0.78,
+    "localCurrencyCode": "AUD",
+    "weightUnits": "kg",
+    "isInferred": true,
+    "sourceType": "general",
+    "sources": [
+      {
+        "label": "IMARC - Asphalt Prices November 2025 (Northeast Asia)",
+        "url": "https://imarcgroup.com/asphalt-pricing-report",
+        "type": "industry_report",
+        "ageMonths": 1,
+        "observedAt": "2025-11",
+        "rawPriceUsdPerKg": 0.48
+      },
+      {
+        "label": "IMARC - Asphalt Prices November 2025 (Europe)",
+        "url": "https://imarcgroup.com/asphalt-pricing-report",
+        "type": "industry_report",
+        "ageMonths": 1,
+        "observedAt": "2025-11",
+        "rawPriceUsdPerKg": 0.52
+      },
+      {
+        "label": "IMARC - Asphalt Prices November 2025 (North America)",
+        "url": "https://imarcgroup.com/asphalt-pricing-report",
+        "type": "industry_report",
+        "ageMonths": 1,
+        "observedAt": "2025-11",
+        "rawPriceUsdPerKg": 0.64
+      },
+      {
+        "label": "BusinessAnalytIQ - Asphalt Price Index November 2025 (Northeast Asia)",
+        "url": "https://businessanalytiq.com/procurementanalytics/index/asphalt-price-index/",
+        "type": "commodity_index",
+        "ageMonths": 1,
+        "observedAt": "2025-11",
+        "rawPriceUsdPerKg": 0.47
+      },
+      {
+        "label": "BusinessAnalytIQ - Asphalt Price Index November 2025 (Europe)",
+        "url": "https://businessanalytiq.com/procurementanalytics/index/asphalt-price-index/",
+        "type": "commodity_index",
+        "ageMonths": 1,
+        "observedAt": "2025-11",
+        "rawPriceUsdPerKg": 0.51
+      },
+      {
+        "label": "BusinessAnalytIQ - Asphalt Price Index November 2025 (North America)",
+        "url": "https://businessanalytiq.com/procurementanalytics/index/asphalt-price-index/",
+        "type": "commodity_index",
+        "ageMonths": 1,
+        "observedAt": "2025-11",
+        "rawPriceUsdPerKg": 0.62
+      }
+    ],
+    "date": "2025-11",
+    "derivationType": "inferred_regional",
+    "geoProximity": "different_region",
+    "qualityBreakdown": {
+      "recency": 80,
+      "source": 67.5,
+      "estimation": 70,
+      "consistency": 80,
+      "proximity": 15,
+      "composite": 68.375
+    }
+  }
+}

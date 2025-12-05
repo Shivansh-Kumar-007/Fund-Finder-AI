@@ -72,7 +72,8 @@ function getExaClient() {
 
 async function searchAltIngLocs(query: string, exclusions: string[] = []) {
   const exclusionString = exclusions.map((term) => `-"${term}"`).join(" ");
-  const fullQuery = exclusions.length > 0 ? `${query} ${exclusionString}`.trim() : query;
+  const fullQuery =
+    exclusions.length > 0 ? `${query} ${exclusionString}`.trim() : query;
 
   const exa = getExaClient();
   const result = await exa.searchAndContents(fullQuery, {
@@ -194,10 +195,14 @@ async function buildSearchQueries({
   return queries;
 }
 
-function sortByCountryNamePresence<T extends { countryName?: string | null }>(items: T[]): T[] {
+function sortByCountryNamePresence<T extends { countryName?: string | null }>(
+  items: T[]
+): T[] {
   return [...items].sort((a, b) => {
-    const aHasCountryName = typeof a?.countryName === "string" && a.countryName.trim().length > 0;
-    const bHasCountryName = typeof b?.countryName === "string" && b.countryName.trim().length > 0;
+    const aHasCountryName =
+      typeof a?.countryName === "string" && a.countryName.trim().length > 0;
+    const bHasCountryName =
+      typeof b?.countryName === "string" && b.countryName.trim().length > 0;
 
     if (aHasCountryName === bHasCountryName) {
       return 0;
@@ -237,7 +242,9 @@ async function sanitizeCandidates(
 function dedupe(items: AltIngLoc[]): AltIngLoc[] {
   const seen = new Set<string>();
   return items.filter((it) => {
-    const key = `${it.url}::${it.countryName ?? ""}::${it.ingredientName ?? ""}`;
+    const key = `${it.url}::${it.countryName ?? ""}::${
+      it.ingredientName ?? ""
+    }`;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -268,7 +275,9 @@ async function fetchAndNormalizeResults({
   const allAlternatives = [...withinResultsArrays, ...outsideResultsArrays];
   const deduped = dedupe(allAlternatives);
 
-  return altIngLocsSchema.parse(sortByCountryNamePresence(deduped).slice(0, 10));
+  return altIngLocsSchema.parse(
+    sortByCountryNamePresence(deduped).slice(0, 10)
+  );
 }
 
 // ============================================================================
