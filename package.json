@@ -4,7 +4,7 @@
   "private": true,
   "description": "CLI to discover AI funding opportunities via Exa search",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "main": "run.ts",
   "scripts": {

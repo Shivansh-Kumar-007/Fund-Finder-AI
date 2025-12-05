@@ -1,6 +1,11 @@
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { DEFAULT_NUM_RESULTS } from "./config";
 import { getExa } from "./exa-client";
-import { FundingOpportunity, fundingOpportunitySchema } from "./funding-output-schema";
+import {
+  FundingOpportunity,
+  fundingOpportunitySchema,
+} from "./funding-output-schema";
 import { repairFundingSummary } from "./llm-repair";
 
 export type FundingSearchOptions = {
@@ -10,6 +15,56 @@ export type FundingSearchOptions = {
   keywords?: string;
   numResults?: number;
 };
+
+const FUNDING_CACHE_PATH = resolve(__dirname, "funding_cache.json");
+
+type FundingCacheEntry = {
+  opportunities: FundingOpportunity[];
+  cachedAt: string;
+};
+
+const fundingCache: Record<string, FundingCacheEntry> = loadFundingCache();
+
+function loadFundingCache(): Record<string, FundingCacheEntry> {
+  if (!existsSync(FUNDING_CACHE_PATH)) {
+    return {};
+  }
+  try {
+    const content = readFileSync(FUNDING_CACHE_PATH, "utf8");
+    const parsed = JSON.parse(content);
+    if (parsed && typeof parsed === "object") {
+      return parsed as Record<string, FundingCacheEntry>;
+    }
+  } catch (error) {
+    console.warn(
+      "Failed to read funding cache; starting with empty cache.",
+      error
+    );
+  }
+  return {};
+}
+
+function persistFundingCache() {
+  try {
+    const dir = resolve(__dirname);
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(
+      FUNDING_CACHE_PATH,
+      JSON.stringify(fundingCache, null, 2),
+      "utf8"
+    );
+  } catch (error) {
+    console.error("Failed to persist funding cache:", error);
+  }
+}
+
+function makeCacheKey(options: FundingSearchOptions): string {
+  const query = options.query ?? buildFundingQuery(options);
+  const countries = (options.countries ?? []).sort().join(",");
+  return `${query}::${countries}::${options.industry ?? ""}::${
+    options.keywords ?? ""
+  }`;
+}
 
 const fundingSummarySchema = {
   $schema: "http://json-schema.org/draft-07/schema#",
@@ -60,8 +115,11 @@ function normalizeCountries(countries?: string[]): string[] {
 
 export function buildFundingQuery(options: FundingSearchOptions): string {
   const countries = normalizeCountries(options.countries);
-  const countryFragment = countries.length > 0 ? `in ${countries.join(" or ")}` : "worldwide";
-  const industryFragment = options.industry ? `for ${options.industry}` : "for AI startups and research companies";
+  const countryFragment =
+    countries.length > 0 ? `in ${countries.join(" or ")}` : "worldwide";
+  const industryFragment = options.industry
+    ? `for ${options.industry}`
+    : "for AI startups and research companies";
   const keywordFragment = options.keywords ? ` ${options.keywords}` : "";
 
   return `AI startup and research funding: grants, non-dilutive subsidies, accelerator stipends, and government programs ${industryFragment} ${countryFragment}${keywordFragment} with application deadlines and eligibility`;
@@ -71,7 +129,8 @@ function extractOpportunityObjects(parsed: any): any[] {
   if (!parsed) return [];
   if (Array.isArray(parsed)) return parsed;
   if (Array.isArray(parsed.opportunities)) return parsed.opportunities;
-  if (Array.isArray(parsed.fundingOpportunities)) return parsed.fundingOpportunities;
+  if (Array.isArray(parsed.fundingOpportunities))
+    return parsed.fundingOpportunities;
   if (parsed.opportunity) return [parsed.opportunity];
   if (parsed.fundingOpportunity) return [parsed.fundingOpportunity];
   return [];
@@ -108,7 +167,18 @@ function dedupe(opportunities: FundingOpportunity[]): FundingOpportunity[] {
   return result;
 }
 
-export async function findFundingOpportunities(options: FundingSearchOptions): Promise<FundingOpportunity[]> {
+export async function findFundingOpportunities(
+  options: FundingSearchOptions
+): Promise<FundingOpportunity[]> {
+  const cacheKey = makeCacheKey(options);
+  const cached = fundingCache[cacheKey];
+
+  // Return cached result if available
+  if (cached) {
+    console.log("Returning cached funding opportunities");
+    return cached.opportunities;
+  }
+
   const query = options.query ?? buildFundingQuery(options);
   const numResults = options.numResults ?? DEFAULT_NUM_RESULTS;
   const normalizedCountries = normalizeCountries(options.countries);
@@ -137,7 +207,11 @@ export async function findFundingOpportunities(options: FundingSearchOptions): P
       summary: (r as any).summary,
       url: r.url,
       title: r.title ?? "",
-      text: r.text ?? (Array.isArray((r as any).highlights) ? (r as any).highlights.join(" ") : ""),
+      text:
+        r.text ??
+        (Array.isArray((r as any).highlights)
+          ? (r as any).highlights.join(" ")
+          : ""),
       countries: normalizedCountries,
       industry: options.industry ?? "Artificial Intelligence",
     });
@@ -145,5 +219,14 @@ export async function findFundingOpportunities(options: FundingSearchOptions): P
     opportunities.push(...repaired);
   }
 
-  return dedupe(opportunities).slice(0, numResults);
+  const deduped = dedupe(opportunities).slice(0, numResults);
+
+  // Cache the results
+  fundingCache[cacheKey] = {
+    opportunities: deduped,
+    cachedAt: new Date().toISOString(),
+  };
+  persistFundingCache();
+
+  return deduped;
 }

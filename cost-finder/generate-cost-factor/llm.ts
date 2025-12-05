@@ -187,10 +187,14 @@ function toSourceTypeKey(value: string | undefined): SourceTypeKey | undefined {
     "web_secondary",
     "anecdotal",
   ];
-  return allowed.includes(value as SourceTypeKey) ? (value as SourceTypeKey) : undefined;
+  return allowed.includes(value as SourceTypeKey)
+    ? (value as SourceTypeKey)
+    : undefined;
 }
 
-function toDerivationType(value: string | undefined): DerivationType | undefined {
+function toDerivationType(
+  value: string | undefined
+): DerivationType | undefined {
   if (!value) return undefined;
   const allowed: DerivationType[] = [
     "direct_local",
@@ -199,7 +203,9 @@ function toDerivationType(value: string | undefined): DerivationType | undefined
     "inferred_material_analog",
     "heuristic",
   ];
-  return allowed.includes(value as DerivationType) ? (value as DerivationType) : undefined;
+  return allowed.includes(value as DerivationType)
+    ? (value as DerivationType)
+    : undefined;
 }
 
 function toProximityKey(value: string | undefined): ProximityKey | undefined {
@@ -212,10 +218,14 @@ function toProximityKey(value: string | undefined): ProximityKey | undefined {
     "same_region",
     "different_region",
   ];
-  return allowed.includes(value as ProximityKey) ? (value as ProximityKey) : undefined;
+  return allowed.includes(value as ProximityKey)
+    ? (value as ProximityKey)
+    : undefined;
 }
 
-function makeCacheKey(target: Pick<Target, "ingredientName" | "locationCode">): string {
+function makeCacheKey(
+  target: Pick<Target, "ingredientName" | "locationCode">
+): string {
   return `${target.ingredientName.toLowerCase()}::${target.locationCode}`;
 }
 
@@ -238,7 +248,10 @@ function loadLlmCache(): Record<string, CacheEntry> {
       return parsed as Record<string, CacheEntry>;
     }
   } catch (error) {
-    console.warn(formatWarning("Failed to read LLM cache; starting with empty cache."), error);
+    console.warn(
+      formatWarning("Failed to read LLM cache; starting with empty cache."),
+      error
+    );
   }
   return {};
 }
@@ -248,7 +261,9 @@ function persistLlmCache() {
   writeFileSync(LLM_CACHE_PATH, JSON.stringify(llmCache, null, 2), "utf8");
 }
 
-function normalizeCostfulResults(results: SearchResultForPrompt[]): SearchResultForPrompt[] {
+function normalizeCostfulResults(
+  results: SearchResultForPrompt[]
+): SearchResultForPrompt[] {
   return results
     .map((r) => ({
       ...r,
@@ -257,12 +272,17 @@ function normalizeCostfulResults(results: SearchResultForPrompt[]): SearchResult
     .filter((r) => r.cost.length > 0);
 }
 
-function pickResultsForModel(results: SearchResultForPrompt[]): SearchResultForPrompt[] {
+function pickResultsForModel(
+  results: SearchResultForPrompt[]
+): SearchResultForPrompt[] {
   const preferred = results.filter((r) => r.sourceType === "preferred");
   return preferred.length > 0 ? preferred : results;
 }
 
-function buildPrompt(target: Target, searchResults: SearchResultForPrompt[]): string {
+function buildPrompt(
+  target: Target,
+  searchResults: SearchResultForPrompt[]
+): string {
   return (
     `User question:
      what is the cost of ${target.ingredientName} in ${target.locationName}, both in USD and localCurrency?
@@ -279,7 +299,7 @@ async function callModel(
   searchResults: SearchResultForPrompt[]
 ): Promise<LlmResponse> {
   const { object } = await generateObjectImpl({
-    model: openai("gpt-5-mini-2025-08-07"),
+    model: openai(process.env.OPENAI_MODEL ?? "gpt-4o-mini"),
     system: SYSTEM_PROMPT,
     prompt: buildPrompt(target, searchResults),
     schema: costFactorMetadataSchema,
@@ -312,10 +332,13 @@ function attachQualityScores(response: LlmResponse): LlmResponse {
 
   const sourcesForScoring: SourceEntry[] = sources.map((source) => ({
     type: toSourceTypeKey(source.type) ?? "web_secondary",
-    ageMonths: typeof source.ageMonths === "number" ? source.ageMonths : undefined,
+    ageMonths:
+      typeof source.ageMonths === "number" ? source.ageMonths : undefined,
     observedAt: source.observedAt,
     rawPriceUsdPerKg:
-      typeof source.rawPriceUsdPerKg === "number" ? source.rawPriceUsdPerKg : undefined,
+      typeof source.rawPriceUsdPerKg === "number"
+        ? source.rawPriceUsdPerKg
+        : undefined,
   }));
 
   const derivation = toDerivationType(response.derivationType);
@@ -323,9 +346,11 @@ function attachQualityScores(response: LlmResponse): LlmResponse {
   if (
     derivation !== "direct_local" &&
     proximityForScoring &&
-    !["same_cluster", "same_country_same_market", "same_country_different_market"].includes(
-      proximityForScoring
-    )
+    ![
+      "same_cluster",
+      "same_country_same_market",
+      "same_country_different_market",
+    ].includes(proximityForScoring)
   ) {
     // For non-local derivations, downgrade cross-country proximity claims to different_region.
     proximityForScoring = "different_region";
@@ -379,7 +404,9 @@ async function searchWithFallback(target: Target): Promise<{
   results: SearchResultForPrompt[];
   usedGlobal: boolean;
 }> {
-  const firstPass = await gatherSearchResultsImpl(target, { forceGlobalFallback: false });
+  const firstPass = await gatherSearchResultsImpl(target, {
+    forceGlobalFallback: false,
+  });
   const firstWithCosts = normalizeCostfulResults(firstPass.results);
 
   // If we found costs or already searched globally inside gather, stop here.
@@ -388,7 +415,9 @@ async function searchWithFallback(target: Target): Promise<{
   }
 
   // Otherwise, force a global search.
-  const globalPass = await gatherSearchResultsImpl(target, { forceGlobalFallback: true });
+  const globalPass = await gatherSearchResultsImpl(target, {
+    forceGlobalFallback: true,
+  });
   const globalWithCosts = normalizeCostfulResults(globalPass.results);
   return { results: globalWithCosts, usedGlobal: true };
 }
@@ -434,14 +463,17 @@ export async function gatherSearchResults(
   const preferredCountry = forceGlobalFallback
     ? []
     : await domainPreferredSearchImpl(countryQuery!);
-  const generalCountry = forceGlobalFallback ? [] : await generalSearchImpl(countryQuery!);
+  const generalCountry = forceGlobalFallback
+    ? []
+    : await generalSearchImpl(countryQuery!);
 
   const RESULTS_THRESHOLD = 3;
   let preferred = preferredCountry;
   let general = generalCountry;
 
   const shouldUseGlobal =
-    forceGlobalFallback || preferred.length + general.length < RESULTS_THRESHOLD;
+    forceGlobalFallback ||
+    preferred.length + general.length < RESULTS_THRESHOLD;
 
   if (shouldUseGlobal) {
     const preferredGlobal = await domainPreferredSearchImpl(globalQuery);
@@ -464,15 +496,21 @@ export async function gatherSearchResults(
   //   },
   //   { depth: null }
   // );
-  const seen = new Set(allPreferredCosts.flatMap((c) => c.map((c) => c.source.url)));
-  const annotatedPreferred: SearchResultForPrompt[] = preferred.map((res, index) => ({
-    ...res,
-    id: index + 1,
-    sourceType: "preferred",
-  }));
+  const seen = new Set(
+    allPreferredCosts.flatMap((c) => c.map((c) => c.source.url))
+  );
+  const annotatedPreferred: SearchResultForPrompt[] = preferred.map(
+    (res, index) => ({
+      ...res,
+      id: index + 1,
+      sourceType: "preferred",
+    })
+  );
 
   const filteredGeneral = general.filter((res) => {
-    const validCosts = res.cost.filter((c) => c.source && !seen.has(c.source.url));
+    const validCosts = res.cost.filter(
+      (c) => c.source && !seen.has(c.source.url)
+    );
     if (validCosts.length === 0) {
       return false;
     }
@@ -481,11 +519,13 @@ export async function gatherSearchResults(
     return true;
   });
 
-  const annotatedGeneral: SearchResultForPrompt[] = filteredGeneral.map((res, index) => ({
-    ...res,
-    id: annotatedPreferred.length + index + 1,
-    sourceType: "general",
-  }));
+  const annotatedGeneral: SearchResultForPrompt[] = filteredGeneral.map(
+    (res, index) => ({
+      ...res,
+      id: annotatedPreferred.length + index + 1,
+      sourceType: "general",
+    })
+  );
 
   return {
     results: [...annotatedPreferred, ...annotatedGeneral],
@@ -495,7 +535,8 @@ export async function gatherSearchResults(
 
 let gatherSearchResultsImpl: GatherResultsFn = gatherSearchResults;
 let generateObjectImpl: typeof generateObject = generateObject;
-let domainPreferredSearchImpl: typeof domainPreferredSearch = domainPreferredSearch;
+let domainPreferredSearchImpl: typeof domainPreferredSearch =
+  domainPreferredSearch;
 let generalSearchImpl: typeof generalSearch = generalSearch;
 
 export function setGatherSearchResultsImpl(fn: GatherResultsFn) {

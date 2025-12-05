@@ -30,13 +30,25 @@ router.get("/", async (req: Request, res: Response) => {
           keywords: keywords ? String(keywords) : undefined,
         });
 
-    const opportunities = await findFundingOpportunities({
-      query: queryUsed,
-      countries: countriesArray,
-      industry: industry ? String(industry) : undefined,
-      keywords: keywords ? String(keywords) : undefined,
-      numResults,
-    });
+    let opportunities;
+    try {
+      opportunities = await findFundingOpportunities({
+        query: queryUsed,
+        countries: countriesArray,
+        industry: industry ? String(industry) : undefined,
+        keywords: keywords ? String(keywords) : undefined,
+        numResults,
+      });
+    } catch (searchError) {
+      console.error("Error calling findFundingOpportunities:", searchError);
+      return res.status(503).json({
+        error: "Funding search service temporarily unavailable",
+        details:
+          searchError instanceof Error
+            ? searchError.message
+            : String(searchError),
+      });
+    }
 
     res.json({
       input: {

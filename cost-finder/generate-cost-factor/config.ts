@@ -1,5 +1,8 @@
 import { resolve } from "node:path";
-import { Units } from "@prisma/client";
+
+export enum Units {
+  USD_PER_kg = "USD_PER_kg",
+}
 
 export type ScriptArgs = {
   dryRun: boolean;
@@ -17,19 +20,32 @@ export const ansi = {
   red: "\x1b[31m",
 };
 
-export const colorLabel = (label: string) => `${ansi.bold}${ansi.yellow}${label}${ansi.reset}`;
-export const colorValue = (value: string) => `${ansi.cyan}${value}${ansi.reset}`;
-export const formatWarning = (text: string) => `${ansi.bold}${ansi.yellow}${text}${ansi.reset}`;
-export const formatSuccess = (text: string) => `${ansi.bold}${ansi.green}${text}${ansi.reset}`;
-export const formatError = (text: string) => `${ansi.bold}${ansi.red}${text}${ansi.reset}`;
-export const formatInfo = (text: string) => `${ansi.bold}${ansi.cyan}${text}${ansi.reset}`;
+export const colorLabel = (label: string) =>
+  `${ansi.bold}${ansi.yellow}${label}${ansi.reset}`;
+export const colorValue = (value: string) =>
+  `${ansi.cyan}${value}${ansi.reset}`;
+export const formatWarning = (text: string) =>
+  `${ansi.bold}${ansi.yellow}${text}${ansi.reset}`;
+export const formatSuccess = (text: string) =>
+  `${ansi.bold}${ansi.green}${text}${ansi.reset}`;
+export const formatError = (text: string) =>
+  `${ansi.bold}${ansi.red}${text}${ansi.reset}`;
+export const formatInfo = (text: string) =>
+  `${ansi.bold}${ansi.cyan}${text}${ansi.reset}`;
 
 export const OUTPUT_DIR = __dirname;
-export const UNDO_SQL_PATH = resolve(OUTPUT_DIR, "undo_generate_cost_factor.sql");
-export const PROGRESS_LOG_PATH = resolve(OUTPUT_DIR, "generate_cost_factor_progress.log");
+export const UNDO_SQL_PATH = resolve(
+  OUTPUT_DIR,
+  "undo_generate_cost_factor.sql"
+);
+export const PROGRESS_LOG_PATH = resolve(
+  OUTPUT_DIR,
+  "generate_cost_factor_progress.log"
+);
 export const LLM_CACHE_PATH = resolve(OUTPUT_DIR, "llm_response_cache.json");
 
-export const COST_DATA_SOURCE_ID = process.env.AI_COST_DATA_SOURCE_ID ?? "unibloom";
+export const COST_DATA_SOURCE_ID =
+  process.env.AI_COST_DATA_SOURCE_ID ?? "unibloom";
 export const DEFAULT_UNITS = Units.USD_PER_kg;
 export const TARGET_MAIN_DATA_POINT_IDS = [
   // "crude-palm-oil",
@@ -55,7 +71,8 @@ export const TARGET_MAIN_DATA_POINT_IDS = [
 ];
 
 export const DB_URL =
-  process.env.DATABASE_URL ?? "postgresql://postgres:123456789@localhost:5432/local";
+  process.env.DATABASE_URL ??
+  "postgresql://postgres:123456789@localhost:5432/local";
 
 export function parseArgs(argv: string[]): ScriptArgs {
   const args: ScriptArgs = { dryRun: false };
@@ -113,7 +130,9 @@ export function parseArgs(argv: string[]): ScriptArgs {
 export async function confirmDatabase(url: string, isDryRun: boolean) {
   console.log(`${formatInfo("Connecting to database")}: ${colorValue(url)}`);
   if (isDryRun) {
-    console.log(`${formatWarning("DRY RUN")}: no database changes will be written.`);
+    console.log(
+      `${formatWarning("DRY RUN")}: no database changes will be written.`
+    );
     return;
   }
   const response = await new Promise<string>((resolve) => {
@@ -124,7 +143,9 @@ export async function confirmDatabase(url: string, isDryRun: boolean) {
         `${colorLabel("Type 'y' to continue or 'n' to abort")}: `,
       ].join("\n")
     );
-    process.stdin.once("data", (data) => resolve(data.toString().trim().toLowerCase()));
+    process.stdin.once("data", (data) =>
+      resolve(data.toString().trim().toLowerCase())
+    );
   });
   if (response !== "y") {
     throw new Error("Aborted by user.");

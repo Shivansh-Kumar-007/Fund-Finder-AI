@@ -1,0 +1,270 @@
+{
+  "AI startup and research funding: grants, non-dilutive subsidies, accelerator stipends, and government programs for Food & Beverage Manufacturing (Agri‑food / Ingredients) in New Zealand ((grant OR funding OR subsidy OR \"financial support\" OR \"innovation grant\" OR \"R&D tax credit\" OR \"commercialisation grant\" OR \"SME grant\" OR \"business development grant\" OR \"export support\") AND (\"food ingredient\" OR \"bulk ingredient\" OR \"raw material\" OR commodity OR \"feed ingredient\" OR \"bio-based ingredient\" OR \"industrial ingredient\" OR \"ingredient manufacturing\" OR \"food processing\" OR agri-food OR agriculture OR \"animal feed\") AND (\"cost per kg\" OR \"price per kg\" OR \"unit cost\" OR \"low cost\" OR \"cost reduction\" OR \"supply chain resilience\" OR \"import substitution\" OR scale-up OR commercialisation OR sustainability OR \"circular economy\")) AND (\"New Zealand\" OR NZ OR international) with application deadlines and eligibility::New Zealand::Food & Beverage Manufacturing (Agri‑food / Ingredients)::((grant OR funding OR subsidy OR \"financial support\" OR \"innovation grant\" OR \"R&D tax credit\" OR \"commercialisation grant\" OR \"SME grant\" OR \"business development grant\" OR \"export support\") AND (\"food ingredient\" OR \"bulk ingredient\" OR \"raw material\" OR commodity OR \"feed ingredient\" OR \"bio-based ingredient\" OR \"industrial ingredient\" OR \"ingredient manufacturing\" OR \"food processing\" OR agri-food OR agriculture OR \"animal feed\") AND (\"cost per kg\" OR \"price per kg\" OR \"unit cost\" OR \"low cost\" OR \"cost reduction\" OR \"supply chain resilience\" OR \"import substitution\" OR scale-up OR commercialisation OR sustainability OR \"circular economy\")) AND (\"New Zealand\" OR NZ OR international)": {
+    "opportunities": [
+      {
+        "name": "FIRST ACADEMIC CONFERENCE ON THE SUSTAINABLE DEVELOPMENT GOALS",
+        "website": "https://www.uvu.edu/global/docs/wim22/wim22-publication-v1.pdf",
+        "applicableCountries": [],
+        "relevantIndustry": "Food & Beverage Manufacturing (Agri‑food / Ingredients)",
+        "fundingAmount": "",
+        "summary": "This publication discusses the Sustainable Development Goals (SDGs) and their importance in achieving global sustainability, with a focus on the actions needed to mobilize resources and implement strategies for sustainable development."
+      }
+    ],
+    "cachedAt": "2025-12-05T20:04:53.655Z"
+  },
+  "AI startup and research funding: grants, non-dilutive subsidies, accelerator stipends, and government programs for Agriculture / Food processing / Ingredient supply chain in New Zealand (unspecified ingredient OR food ingredient OR agricultural commodity) AND (New Zealand OR NZ) AND (grants OR subsidies OR tax incentives OR low-interest loans OR R&D grants OR innovation funding OR export development grants) AND (cost reduction OR operational efficiency OR local production OR value-added processing OR quality improvement OR food safety OR sustainability OR green manufacturing OR supply chain resilience) with application deadlines and eligibility::New Zealand::Agriculture / Food processing / Ingredient supply chain::(unspecified ingredient OR food ingredient OR agricultural commodity) AND (New Zealand OR NZ) AND (grants OR subsidies OR tax incentives OR low-interest loans OR R&D grants OR innovation funding OR export development grants) AND (cost reduction OR operational efficiency OR local production OR value-added processing OR quality improvement OR food safety OR sustainability OR green manufacturing OR supply chain resilience)": {
+    "opportunities": [
+      {
+        "name": "New Zealand AI Research Funding",
+        "website": "https://www.mlex.com/mlex/artificial-intelligence/articles/2389462/new-zealand-govt-commits-nz-70-million-to-ai-research-funding",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Artificial Intelligence",
+        "fundingAmount": "NZ$70 million over seven years",
+        "summary": "The New Zealand government has announced NZ$70 million funding for AI research to enhance the country's AI capabilities, commercialization, and economic growth."
+      },
+      {
+        "name": "New NZ Seed Grant for AI Research and Commercialization",
+        "website": "https://www.linkedin.com/posts/coreylaverty_new-nz-seed-grant-for-ai-research-commercialisation-activity-7374244277247229952-fdAR",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "AI Research and Commercialization",
+        "fundingAmount": "$70 million over seven years",
+        "summary": "The New Zealand Institute for Advanced Technology is launching a $70 million investment over seven years to grow New Zealand’s AI research capability and fast-track commercialization. Applications open late October."
+      },
+      {
+        "name": "NZ Government Support Directory",
+        "website": "https://whatfounderswant.com/government-support-for-startups-smes-in-new-zealand-2025",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agriculture, Food processing, Ingredient supply chain",
+        "fundingAmount": "Varies by program",
+        "summary": "Discover every active NZ government grant and support program for startups and SMEs in 2025, including grants, co-funding, R&D tax credits, mentoring, export services, and startup visas."
+      },
+      {
+        "name": "Flexi-wage for self-employment",
+        "website": "https://www.workandincome.govt.nz/products/a-z-benefits/flexi-wage-self-employment.html",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agriculture/Food processing",
+        "fundingAmount": "Up to $600 a week for up to 28 weeks, totalling $16,800",
+        "summary": "Supports you to start your own business by helping with costs while you get things up and running."
+      },
+      {
+        "name": "Self-employment start up payment",
+        "website": "https://www.workandincome.govt.nz/products/a-z-benefits/self-employment-start-up-payment.html#null",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agriculture/Food processing",
+        "fundingAmount": "Up to $10,000",
+        "summary": "Helps you cover the essential startup costs for starting a new business."
+      },
+      {
+        "name": "Business Training and Advice Grant",
+        "website": "https://www.workandincome.govt.nz/products/a-z-benefits/business-training-a",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agriculture/Food processing",
+        "fundingAmount": "Up to $1,000 every 52 week period",
+        "summary": "Gives you access to expert advice on all the nuts and bolts of setting up your business."
+      },
+      {
+        "name": "Artificial Intelligence Research Platform",
+        "website": "https://www.mbie.govt.nz/assets/call-for-proposals-for-the-artificial-intelligence-research-platform.pdf",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agriculture/Food processing/Ingredient supply chain",
+        "fundingAmount": "Not specified",
+        "summary": "The New Zealand Government is inviting applications for an AI Research Platform to strengthen research capability and commercialisation in AI."
+      },
+      {
+        "name": "NZ AI Research Drive",
+        "website": "https://completeaitraining.com/news/nz-launches-70-million-ai-research-drive-to-fast-track/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agriculture / Food processing / Ingredient supply chain",
+        "fundingAmount": "$70 Million",
+        "summary": "The New Zealand government has launched a $70 million initiative aimed at accelerating AI research to enhance commercialisation, create jobs, and achieve healthcare savings."
+      }
+    ],
+    "cachedAt": "2025-12-05T20:10:30.843Z"
+  },
+  "AI startup and research funding: grants, non-dilutive subsidies, accelerator stipends, and government programs for Dairy processing / dairy manufacturing (food & beverage, agribusiness, dairy exports) in New Zealand (\"skimmed milk powder\" OR \"skim milk powder\" OR \"milk powder\" OR SMP) AND (\"New Zealand\" OR NZ) AND (grant OR grants OR subsidy OR subsidies OR \"tax incentive\" OR \"R&D tax incentive\" OR \"research and development tax credit\" OR \"low-interest loan\" OR \"co-investment\" OR \"capital funding\" OR \"innovation grant\" OR \"R&D funding\" OR \"sustainability grant\" OR \"energy efficiency grant\" OR \"export development\" OR \"export grant\" OR \"market development\" OR \"production support\" OR \"manufacturing grant\" OR \"biosecurity funding\" OR \"waste reduction funding\" OR decarbonisation OR \"net zero\") AND (dairy OR \"dairy processing\" OR \"dairy manufacturing\" OR \"food manufacturing\" OR \"value-added dairy\" OR agribusiness) AND (Callaghan Innovation OR NZTE OR \"New Zealand Trade and Enterprise\" OR MPI OR \"Ministry for Primary Industries\" OR MBIE OR \"Ministry of Business, Innovation and Employment\" OR \"regional development\" OR \"regional council\" OR \"Sustainable Food & Fibre Futures\" OR \"Primary Growth Partnership\" OR \"Provincial Growth Fund\" OR \"He Waka Eke Noa\") with application deadlines and eligibility::New Zealand::Dairy processing / dairy manufacturing (food & beverage, agribusiness, dairy exports)::(\"skimmed milk powder\" OR \"skim milk powder\" OR \"milk powder\" OR SMP) AND (\"New Zealand\" OR NZ) AND (grant OR grants OR subsidy OR subsidies OR \"tax incentive\" OR \"R&D tax incentive\" OR \"research and development tax credit\" OR \"low-interest loan\" OR \"co-investment\" OR \"capital funding\" OR \"innovation grant\" OR \"R&D funding\" OR \"sustainability grant\" OR \"energy efficiency grant\" OR \"export development\" OR \"export grant\" OR \"market development\" OR \"production support\" OR \"manufacturing grant\" OR \"biosecurity funding\" OR \"waste reduction funding\" OR decarbonisation OR \"net zero\") AND (dairy OR \"dairy processing\" OR \"dairy manufacturing\" OR \"food manufacturing\" OR \"value-added dairy\" OR agribusiness) AND (Callaghan Innovation OR NZTE OR \"New Zealand Trade and Enterprise\" OR MPI OR \"Ministry for Primary Industries\" OR MBIE OR \"Ministry of Business, Innovation and Employment\" OR \"regional development\" OR \"regional council\" OR \"Sustainable Food & Fibre Futures\" OR \"Primary Growth Partnership\" OR \"Provincial Growth Fund\" OR \"He Waka Eke Noa\")": {
+    "opportunities": [
+      {
+        "name": "Food Chain Accelerator 2024",
+        "website": "https://amsterdam.impacthub.net/program/food-chain-accelerator-2024-2/",
+        "applicableCountries": [
+          "Netherlands"
+        ],
+        "relevantIndustry": "Food & Beverage, Agribusiness",
+        "fundingAmount": "EUR €1,695",
+        "summary": "The Food Chain Accelerator 2024 is designed for startups and SMEs focused on creating a sustainable food system. It includes training, mentorship, networking opportunities, and a chance to pitch to investors, with a program value exceeding EUR €25,000."
+      },
+      {
+        "name": "Dairy Industry Funding Opportunities",
+        "website": "https://www.thebullvine.com/category/dairy-industry/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Dairy Processing",
+        "fundingAmount": "",
+        "summary": "Explore various funding opportunities available for the dairy industry, including grants, subsidies, and support for dairy processing and manufacturing."
+      },
+      {
+        "name": "Olam Group Limited Annual Report 2023",
+        "website": "https://www.olamgroup.com/content/dam/olamgroup/investor-relations/ir-library/annual-reports/annual-reports-pdfs/2023/olam_annual_report_2023.pdf",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Dairy processing",
+        "fundingAmount": "",
+        "summary": "Olam Group Limited is a leading food and agri-business supplying food, ingredients, feed and fibre to 22,000 customers worldwide, focusing on sustainable agriculture and food systems."
+      },
+      {
+        "name": "Danone Universal Registration Document 2024",
+        "website": "https://www.danone.com/content/dam/corp/global/danonecom/investors/en-all-publications/2025/registrationdocuments/urd2024accessibleversion.pdf",
+        "applicableCountries": [
+          "France"
+        ],
+        "relevantIndustry": "Food & Beverage",
+        "fundingAmount": "",
+        "summary": "This document includes the annual financial report for Danone, detailing key figures, business highlights, financial statements, and corporate governance."
+      },
+      {
+        "name": "Yeeper Nutrition Technology (Qingdao) Group Co., Ltd. Application Proof",
+        "website": "https://www1.hkexnews.hk/app/sehk/2025/107669/documents/sehk25083100244.pdf",
+        "applicableCountries": [
+          "Hong Kong"
+        ],
+        "relevantIndustry": "Food & Beverage",
+        "fundingAmount": "",
+        "summary": "This document serves as an Application Proof for Yeeper Nutrition Technology (Qingdao) Group Co., Ltd., providing information to the public in Hong Kong regarding the company's potential offering."
+      },
+      {
+        "name": "Sustainable Food & Fibre Futures",
+        "website": "https://www.mpi.govt.nz/funding-and-programmes/sustainable-food-and-fibre-futures/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agribusiness, Dairy Processing",
+        "fundingAmount": "Varies",
+        "summary": "Funding for projects that enhance the sustainability and profitability of New Zealand's food and fibre sectors."
+      },
+      {
+        "name": "Primary Growth Partnership",
+        "website": "https://www.mpi.govt.nz/funding-and-programmes/primary-growth-partnership/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agribusiness, Dairy Manufacturing",
+        "fundingAmount": "Varies",
+        "summary": "Supports innovative projects that will lead to significant growth in the primary sector."
+      },
+      {
+        "name": "Provincial Growth Fund",
+        "website": "https://www.mbie.govt.nz/business-and-employment/economic-development/regional-economic-development/provincial-growth-fund/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agribusiness, Dairy Processing",
+        "fundingAmount": "Varies",
+        "summary": "Provides funding to support regional economic development initiatives."
+      }
+    ],
+    "cachedAt": "2025-12-05T20:15:44.499Z"
+  },
+  "AI startup and research funding: grants, non-dilutive subsidies, accelerator stipends, and government programs for Dairy processing and food manufacturing (dairy & agribusiness) in New Zealand (\"skimmed milk powder\" OR \"skim milk powder\" OR \"milk powder\" OR \"powdered milk\") AND (\"New Zealand\" OR NZ) AND (grant OR grants OR subsidy OR subsidies OR \"tax incentive\" OR \"tax incentives\" OR \"tax credit\" OR \"low-interest loan\" OR \"concessionary loan\" OR loan OR \"equity investment\" OR \"venture capital\" OR \"co-investment\" OR \"financial assistance\" OR \"grant funding\") AND (\"R&D\" OR \"research and development\" OR innovation OR \"product development\" OR \"process development\" OR \"manufacturing upgrade\" OR \"capital expenditure\" OR \"production support\" OR \"export development\" OR \"export grant\" OR \"market development\" OR sustainab* OR \"energy efficiency\" OR \"emissions reduction\" OR \"waste reduction\" OR packaging OR biosecurity OR \"food safety\") AND (dairy OR \"dairy processing\" OR \"food manufacturing\" OR agribusiness) AND (\"Callaghan Innovation\" OR \"NZTE\" OR \"New Zealand Trade & Enterprise\" OR \"Ministry for Primary Industries\" OR MPI OR MBIE OR \"SFF Futures\" OR \"Sustainable Food and Fibre\" OR \"Provincial Growth Fund\" OR \"regional development\" OR \"local council\" OR \"regional economic development\") with application deadlines and eligibility::New Zealand::Dairy processing and food manufacturing (dairy & agribusiness)::(\"skimmed milk powder\" OR \"skim milk powder\" OR \"milk powder\" OR \"powdered milk\") AND (\"New Zealand\" OR NZ) AND (grant OR grants OR subsidy OR subsidies OR \"tax incentive\" OR \"tax incentives\" OR \"tax credit\" OR \"low-interest loan\" OR \"concessionary loan\" OR loan OR \"equity investment\" OR \"venture capital\" OR \"co-investment\" OR \"financial assistance\" OR \"grant funding\") AND (\"R&D\" OR \"research and development\" OR innovation OR \"product development\" OR \"process development\" OR \"manufacturing upgrade\" OR \"capital expenditure\" OR \"production support\" OR \"export development\" OR \"export grant\" OR \"market development\" OR sustainab* OR \"energy efficiency\" OR \"emissions reduction\" OR \"waste reduction\" OR packaging OR biosecurity OR \"food safety\") AND (dairy OR \"dairy processing\" OR \"food manufacturing\" OR agribusiness) AND (\"Callaghan Innovation\" OR \"NZTE\" OR \"New Zealand Trade & Enterprise\" OR \"Ministry for Primary Industries\" OR MPI OR MBIE OR \"SFF Futures\" OR \"Sustainable Food and Fibre\" OR \"Provincial Growth Fund\" OR \"regional development\" OR \"local council\" OR \"regional economic development\")": {
+    "opportunities": [
+      {
+        "name": "Olam Group Limited Annual Report 2023",
+        "website": "https://www.olamgroup.com/content/dam/olamgroup/investor-relations/ir-library/annual-reports/annual-reports-pdfs/2023/olam_annual_report_2023.pdf",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Dairy processing and food manufacturing",
+        "fundingAmount": "",
+        "summary": "Olam Group Limited is a leading food and agri-business supplying food, ingredients, feed and fibre to 22,000 customers worldwide, focusing on sustainable agriculture and food systems."
+      },
+      {
+        "name": "Dairy Industry Funding Opportunities",
+        "website": "https://www.thebullvine.com/category/dairy-industry/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Dairy Processing and Food Manufacturing",
+        "fundingAmount": "Varies by program",
+        "summary": "Explore funding opportunities for dairy processing and food manufacturing in New Zealand, including grants, subsidies, and government programs."
+      },
+      {
+        "name": "World Bank Facility for MSMEs",
+        "website": "https://www.worldbank.org/en/home",
+        "applicableCountries": [
+          "Nigeria"
+        ],
+        "relevantIndustry": "Finance & Investment",
+        "fundingAmount": "$500 million",
+        "summary": "Nigeria is seeking a fresh $500 million facility from the World Bank to expand access to credit for micro, small, and medium-sized enterprises (MSMEs) as part of efforts to revive private-sector productivity."
+      },
+      {
+        "name": "Nigerian Stock Market Investment",
+        "website": "https://www.ngxgroup.com/",
+        "applicableCountries": [
+          "Nigeria"
+        ],
+        "relevantIndustry": "Finance & Investment",
+        "fundingAmount": "N2.8 trillion loss reported",
+        "summary": "The Nigerian equities market experienced a sharp selloff, with investors losing N2.8 trillion amid geopolitical tensions and profit-taking, although analysts remain optimistic about the market's long-term prospects."
+      },
+      {
+        "name": "Air Peace Aircraft Acquisition",
+        "website": "https://www.airpeace.com/",
+        "applicableCountries": [
+          "Nigeria"
+        ],
+        "relevantIndustry": "Aviation",
+        "fundingAmount": "Not specified",
+        "summary": "Air Peace, the largest airline in West and Central Africa, recently took delivery of a Boeing 737-700 aircraft to enhance its fleet."
+      },
+      {
+        "name": "Global Food Prices Decline",
+        "website": "https://www.fao.org/food-price-index/en/",
+        "applicableCountries": [
+          "Global"
+        ],
+        "relevantIndustry": "Agriculture",
+        "fundingAmount": "Not specified",
+        "summary": "Global food prices fell for the second consecutive month in October, indicating relief in international commodity markets after two years of volatility."
+      },
+      {
+        "name": "AI and Workforce Transformation in Africa",
+        "website": "https://www.afdb.org/en/topics-and-sectors/sectors/information-communication-technology",
+        "applicableCountries": [
+          "Africa"
+        ],
+        "relevantIndustry": "Technology & Innovation",
+        "fundingAmount": "Not specified",
+        "summary": "African corporate leaders are increasingly investing in artificial intelligence and workforce transformation to drive the continent's next growth phase."
+      },
+      {
+        "name": "Callaghan Innovation",
+        "website": "https://www.callaghaninnovation.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Dairy Processing",
+        "fundingAmount": "Varies by program",
+        "summary": "Callaghan Innovation provides funding and support for R&D and innovation in New Zealand businesses, including those in dairy processing."
+      }
+    ],
+    "cachedAt": "2025-12-05T20:24:10.355Z"
+  }
+}

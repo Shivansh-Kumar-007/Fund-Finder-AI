@@ -1,5 +1,7 @@
 import { resolve } from "node:path";
 
+export const OPENAI_MODEL = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
+
 export type ScriptArgs = {
   query?: string;
   countries: string[];

@@ -149,7 +149,7 @@ async function buildSearchQueries({
             `;
 
   const { object: queries } = await generateObject({
-    model: openai("gpt-4o-mini"),
+    model: openai(process.env.OPENAI_MODEL),
     system: `
     You are a web search query generator. You are given a product description, an ingredient name, its sourcing location and its function in the product.
     Return web search queries using the provided templates. No prose.
@@ -193,7 +193,7 @@ async function sanitizeCandidates(
   merged: AltIngLoc[]
 ): Promise<{ altIngLocs: AltIngLoc[] }> {
   const { object: sanitized } = await generateObject({
-    model: openai("gpt-4o"),
+    model: openai(process.env.OPENAI_MODEL ?? "gpt-4o-mini"),
     system: `
     You are a specialized content sanitizer and formatter. You have to do the following
     1. Sanitize Data
@@ -242,14 +242,14 @@ async function fetchAndNormalizeResults({
 }): Promise<AltIngLoc[]> {
   // Search within the same location
   const { text: withinResults } = await generateText({
-    model: openai("gpt-4o-mini"),
+    model: openai(process.env.OPENAI_MODEL ?? "gpt-4o-mini"),
     prompt: `${withinQuery} Exclude ${excludedIngredients.join(", ")}`,
     tools: { webSearch },
     stopWhen: stepCountIs(4),
   });
 
   const { object: withinResultsObj } = await generateObject({
-    model: openai("gpt-4o-mini"),
+    model: openai(process.env.OPENAI_MODEL ?? "gpt-4o-mini"),
     schema: z.object({
       results: z.array(
         z.object({
@@ -266,7 +266,7 @@ async function fetchAndNormalizeResults({
 
   // Search outside the current location
   const { text: outsideResults } = await generateText({
-    model: openai("gpt-4o-mini"),
+    model: openai(process.env.OPENAI_MODEL ?? "gpt-4o-mini"),
     prompt: `${outsideQuery} Exclude ${excludedIngredients
       .filter((ing) => ing !== ingredientName)
       .join(", ")}`,
@@ -275,7 +275,7 @@ async function fetchAndNormalizeResults({
   });
 
   const { object: outsideResultsObj } = await generateObject({
-    model: openai("gpt-4o-mini"),
+    model: openai(process.env.OPENAI_MODEL ?? "gpt-4o-mini"),
     schema: z.object({
       results: z.array(
         z.object({

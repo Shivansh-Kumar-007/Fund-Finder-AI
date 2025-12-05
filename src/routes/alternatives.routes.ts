@@ -14,14 +14,28 @@ router.get("/", async (req: Request, res: Response) => {
         .json({ error: "ingredient and location are required" });
     }
 
-    const alternatives = await getIngredientAlternatives({
-      ingredientName: String(ingredient),
-      locationName: String(location),
-      productDescription: productDescription ? String(productDescription) : "",
-      ingredientFunction: ingredientFunction
-        ? String(ingredientFunction)
-        : undefined,
-    });
+    let alternatives;
+    try {
+      alternatives = await getIngredientAlternatives({
+        ingredientName: String(ingredient),
+        locationName: String(location),
+        productDescription: productDescription
+          ? String(productDescription)
+          : "",
+        ingredientFunction: ingredientFunction
+          ? String(ingredientFunction)
+          : undefined,
+      });
+    } catch (searchError) {
+      console.error("Error calling getIngredientAlternatives:", searchError);
+      return res.status(503).json({
+        error: "Alternatives search service temporarily unavailable",
+        details:
+          searchError instanceof Error
+            ? searchError.message
+            : String(searchError),
+      });
+    }
 
     res.json({
       input: {

@@ -74,5 +74,49 @@
       "proximity": 15,
       "composite": 68.375
     }
+  },
+  "skimmed milk powder::NE": {
+    "qualityBand": "low_medium",
+    "qualityScore": 49.75,
+    "scoreJustification": "No New Zealand-specific price in the results; used two preferred global/Tridge price observations (GDT and US export) that are consistent with each other and converted to NZD using an inferred FX rate.",
+    "explanation": {
+      "reasoningAndMethodology": "No direct New Zealand SMP price was present in the provided results. Per instructions, fell back to global/preferred sources. Two preferred observations were used: Tridge Global Dairy Trade (USD/mt) and Tridge US export price (USD/kg). Converted the Tridge mt value to USD/kg, took the central tendency (mean) of the two preferred values after disregarding the TradingEconomics 'milk' value as a clear outlier vs SMP powder prices, and converted to NZD using an inferred USD→NZD rate.",
+      "assumptions": "Assumed 1 USD = 1.60 NZD (exchange rate inferred from outside the provided results). Treated Tridge GDT mt price as for skim/skimmed milk powder. Used the US Tridge export price range midpoint for the US observation."
+    },
+    "costInUSD": 2.86,
+    "costInLocalCurrency": 4.58,
+    "localCurrencyCode": "NZD",
+    "weightUnits": "kg",
+    "isInferred": true,
+    "sourceType": "preferred",
+    "sources": [
+      {
+        "label": "Price for Skimmed Milk Powder in United States | Tridge (export prices 2024)",
+        "url": "https://dir.tridge.com/prices/skimmed-milk-powder/US",
+        "type": "major_vendor",
+        "ageMonths": 23,
+        "observedAt": "2024-01",
+        "rawPriceUsdPerKg": 3.01
+      },
+      {
+        "label": "Global Dairy Trade (GDT) / Tridge story (SMP, USD/mt)",
+        "url": "https://www.tridge.com/stories/global-dairy-trade-gdt-price-index-drop-07-amidst-global-production-shifts",
+        "type": "industry_report",
+        "ageMonths": 25,
+        "observedAt": "2023-11-14",
+        "rawPriceUsdPerKg": 2.72
+      }
+    ],
+    "date": "2025-12-05",
+    "derivationType": "inferred_regional",
+    "geoProximity": "different_region",
+    "qualityBreakdown": {
+      "recency": 20,
+      "source": 65,
+      "estimation": 70,
+      "consistency": 80,
+      "proximity": 15,
+      "composite": 49.75
+    }
   }
 }

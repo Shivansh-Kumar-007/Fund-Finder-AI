@@ -20,12 +20,24 @@ router.get("/", async (req: Request, res: Response) => {
 
     const numLimit = limit ? Math.max(1, parseInt(String(limit))) : undefined;
 
-    const suppliers = await findSuppliers({
-      ingredient: String(ingredient),
-      countries: countriesArray,
-      keywords: keywords ? String(keywords) : "",
-      limit: numLimit,
-    });
+    let suppliers;
+    try {
+      suppliers = await findSuppliers({
+        ingredient: String(ingredient),
+        countries: countriesArray,
+        keywords: keywords ? String(keywords) : "",
+        limit: numLimit,
+      });
+    } catch (searchError) {
+      console.error("Error calling findSuppliers:", searchError);
+      return res.status(503).json({
+        error: "Supplier search service temporarily unavailable",
+        details:
+          searchError instanceof Error
+            ? searchError.message
+            : String(searchError),
+      });
+    }
 
     res.json({
       input: {

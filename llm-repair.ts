@@ -1,6 +1,9 @@
 import OpenAI from "openai";
 
-import { FundingOpportunity, fundingOpportunitySchema } from "./funding-output-schema";
+import {
+  FundingOpportunity,
+  fundingOpportunitySchema,
+} from "./funding-output-schema";
 
 const OPENAI_MODEL = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
 
@@ -13,7 +16,9 @@ type RepairInput = {
   industry?: string;
 };
 
-export async function repairFundingSummary(input: RepairInput): Promise<FundingOpportunity[]> {
+export async function repairFundingSummary(
+  input: RepairInput
+): Promise<FundingOpportunity[]> {
   if (!process.env.OPENAI_API_KEY) {
     return [];
   }
@@ -30,7 +35,15 @@ Return ONLY a JSON array of funding opportunity objects. Each object must includ
 - fundingAmount (string; optional, include when present)
 - summary (string; brief description)
 
-Rules:
+IMPORTANT FILTERING RULES:
+- ONLY include opportunities that are applicable to the target countries provided below.
+- If applicableCountries is specified in the source, it MUST include at least one of the target countries.
+- If applicableCountries cannot be determined from the source, include the opportunity with an empty array.
+- Do NOT include opportunities that explicitly mention OTHER countries but NOT the target countries.
+- Do NOT include funding opportunities that are OUTDATED or EXPIRED (older than 4 years, or clearly marked as closed/past deadlines).
+- SKIP any content that references programs from before 2021 or has expired application deadlines.
+
+Other Rules:
 - Do NOT invent values not implied by the text; if a field is unknown, use an empty string (or empty array for countries).
 - Prefer the provided URL for website when none is found in the text.
 - Keep summaries under 600 characters.
@@ -46,7 +59,9 @@ Rules:
   const userContent = [
     contextParts.join("\n\n"),
     `Fallback industry: ${input.industry ?? "Artificial Intelligence"}`,
-    `Fallback countries: ${input.countries?.join(", ") ?? ""}`,
+    `TARGET COUNTRIES (only include opportunities applicable to these): ${
+      input.countries?.join(", ") ?? ""
+    }`,
   ].join("\n\n");
 
   const response = await client.chat.completions.create({
