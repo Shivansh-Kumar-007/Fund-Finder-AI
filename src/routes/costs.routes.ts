@@ -149,6 +149,7 @@ router.get("/", async (req: Request, res: Response) => {
         const fundingQuery: any = {
           countries: [String(location)],
           keywords: fundingParams.keywords,
+          ingredient: target.ingredientName,
           numResults: 8,
         };
 

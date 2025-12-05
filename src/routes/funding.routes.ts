@@ -9,7 +9,8 @@ const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
   try {
-    const { query, countries, industry, keywords, limit } = req.query;
+    const { query, countries, industry, keywords, ingredient, limit } =
+      req.query;
 
     const countriesArray = countries
       ? (Array.isArray(countries) ? countries : [countries])
@@ -22,12 +23,17 @@ router.get("/", async (req: Request, res: Response) => {
       ? Math.max(1, parseInt(String(limit)))
       : DEFAULT_NUM_RESULTS;
 
+    const ingredientName = ingredient
+      ? String(Array.isArray(ingredient) ? ingredient[0] : ingredient)
+      : undefined;
+
     const queryUsed = query
       ? String(query)
       : buildFundingQuery({
           countries: countriesArray,
           industry: industry ? String(industry) : undefined,
           keywords: keywords ? String(keywords) : undefined,
+          ingredient: ingredientName,
         });
 
     let opportunities;
@@ -37,6 +43,7 @@ router.get("/", async (req: Request, res: Response) => {
         countries: countriesArray,
         industry: industry ? String(industry) : undefined,
         keywords: keywords ? String(keywords) : undefined,
+        ingredient: ingredientName,
         numResults,
       });
     } catch (searchError) {
@@ -56,6 +63,7 @@ router.get("/", async (req: Request, res: Response) => {
         countries: countriesArray,
         industry: industry ?? null,
         keywords: keywords ?? null,
+        ingredient: ingredientName ?? null,
         limit: numResults,
       },
       queryUsed,

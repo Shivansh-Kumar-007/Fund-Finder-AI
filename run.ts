@@ -22,15 +22,21 @@ async function main() {
       countries: args.countries,
       industry: args.industry,
       keywords: args.keywords,
+      ingredient: args.ingredient,
       numResults: args.limit,
     });
 
-  console.log(`${formatInfo("Searching for AI funding opportunities")}: ${colorValue(query)}`);
+  console.log(
+    `${formatInfo("Searching for funding opportunities")}: ${colorValue(query)}`
+  );
   if (args.countries.length > 0) {
     console.log(`${colorLabel("Target countries")}: ${colorValue(args.countries.join(", "))}`);
   }
   if (args.industry) {
     console.log(`${colorLabel("Industry focus")}: ${colorValue(args.industry)}`);
+  }
+  if (args.ingredient) {
+    console.log(`${colorLabel("Ingredient focus")}: ${colorValue(args.ingredient)}`);
   }
 
   const opportunities = await findFundingOpportunities({
@@ -38,6 +44,7 @@ async function main() {
     countries: args.countries,
     industry: args.industry,
     keywords: args.keywords,
+    ingredient: args.ingredient,
     numResults: args.limit,
   });
 

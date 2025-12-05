@@ -13,6 +13,7 @@ export type FundingSearchOptions = {
   countries?: string[];
   industry?: string;
   keywords?: string;
+  ingredient?: string;
   numResults?: number;
 };
 
@@ -63,7 +64,7 @@ function makeCacheKey(options: FundingSearchOptions): string {
   const countries = (options.countries ?? []).sort().join(",");
   return `${query}::${countries}::${options.industry ?? ""}::${
     options.keywords ?? ""
-  }`;
+  }::${options.ingredient ?? ""}`;
 }
 
 const fundingSummarySchema = {
@@ -117,12 +118,23 @@ export function buildFundingQuery(options: FundingSearchOptions): string {
   const countries = normalizeCountries(options.countries);
   const countryFragment =
     countries.length > 0 ? `in ${countries.join(" or ")}` : "worldwide";
-  const industryFragment = options.industry
-    ? `for ${options.industry}`
-    : "for AI startups and research companies";
-  const keywordFragment = options.keywords ? ` ${options.keywords}` : "";
+  const industryFragment =
+    options.industry ??
+    "sustainable agriculture, food processing, manufacturing";
+  const ingredientFragment = options.ingredient
+    ? `${options.ingredient} production or processing`
+    : "ingredient production or processing";
+  const keywordFragment = options.keywords ? ` ${options.keywords.trim()}` : "";
 
-  return `AI startup and research funding: grants, non-dilutive subsidies, accelerator stipends, and government programs ${industryFragment} ${countryFragment}${keywordFragment} with application deadlines and eligibility`;
+  return [
+    `Funding for ${ingredientFragment} ${countryFragment}`,
+    `covering ${industryFragment} with climate and sustainability focus`,
+    '(grant OR subsidy OR "tax incentive" OR rebate OR "utility rebate" OR "carbon market" OR "innovation fund" OR "R&D funding")',
+    "active programs",
+    keywordFragment,
+  ]
+    .filter(Boolean)
+    .join(" ");
 }
 
 function extractOpportunityObjects(parsed: any): any[] {
@@ -179,7 +191,7 @@ export async function findFundingOpportunities(
     return cached.opportunities;
   }
 
-  const query = options.query ?? buildFundingQuery(options);
+  const query = buildFundingQuery(options);
   const numResults = options.numResults ?? DEFAULT_NUM_RESULTS;
   const normalizedCountries = normalizeCountries(options.countries);
   const exa = getExa();

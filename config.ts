@@ -7,6 +7,7 @@ export type ScriptArgs = {
   countries: string[];
   industry?: string;
   keywords?: string;
+  ingredient?: string;
   limit: number;
   outputPath?: string;
 };
@@ -109,6 +110,16 @@ export function parseArgs(argv: string[]): ScriptArgs {
     }
     if (arg.startsWith("--keywords=")) {
       args.keywords = arg.split("=").slice(1).join("=");
+      continue;
+    }
+
+    if (arg === "--ingredient") {
+      args.ingredient = argv[i + 1];
+      i += 1;
+      continue;
+    }
+    if (arg.startsWith("--ingredient=")) {
+      args.ingredient = arg.split("=").slice(1).join("=");
       continue;
     }
 
