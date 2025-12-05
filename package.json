@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "description": "CLI to discover AI funding opportunities via Exa search",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "main": "run.ts",
   "scripts": {
     "start": "tsx src/main.ts",
