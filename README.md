@@ -29,3 +29,43 @@ Flags:
 - `--output path/to/file.json`: path for saved results (default `funding-opportunities.json`).
 
 Results are printed to stdout and written as JSON.
+
+## API (NestJS)
+
+Start the API (default port 3000):
+
+```bash
+EXA_API_KEY=your_key npm run start:api
+```
+
+GET `/funding` query params:
+- `query`: override the search query text.
+- `countries`: comma-separated list.
+- `industry`: industry focus text.
+- `keywords`: extra keywords to append.
+- `limit`: max results (default 12).
+
+Example:
+
+```
+curl "http://localhost:3000/funding?countries=US,Canada&industry=healthcare%20AI&limit=8"
+```
+
+Response:
+
+```json
+{
+  "query": "AI funding opportunities for healthcare AI in US or Canada grants OR subsidies OR programs application deadline",
+  "count": 8,
+  "opportunities": [
+    {
+      "name": "...",
+      "website": "...",
+      "applicableCountries": ["US", "Canada"],
+      "relevantIndustry": "healthcare AI",
+      "fundingAmount": "$250k",
+      "summary": "..."
+    }
+  ]
+}
+```

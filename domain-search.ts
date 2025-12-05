@@ -182,7 +182,7 @@ export async function findFundingOpportunities(
     summary: { schema: fundingSummarySchema },
     numResults,
     livecrawl: "always",
-    type: "neural",
+    type: "keyword",
     ...DEFAULT_TEXT_OPTIONS,
     useAutoprompt: true,
   });
