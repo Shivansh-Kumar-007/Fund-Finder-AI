@@ -61,7 +61,6 @@ Return ONLY the JSON object, no markdown.`;
     const { text } = await generateText({
       model: openai(OPENAI_MODEL),
       prompt,
-      temperature: 0.3,
     });
 
     // Parse the JSON response

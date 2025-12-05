@@ -66,7 +66,7 @@ Other Rules:
 
   const response = await client.chat.completions.create({
     model: OPENAI_MODEL,
-    temperature: 0,
+
     messages: [
       { role: "system", content: instructions },
       { role: "user", content: userContent },
