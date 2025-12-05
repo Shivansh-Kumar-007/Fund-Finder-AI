@@ -1,6 +1,6 @@
 {
   "build": {
-    "command": "npm ci"
+    "command": "npm ci && npm run build"
   },
   "deploy": {
     "command": "npm start"

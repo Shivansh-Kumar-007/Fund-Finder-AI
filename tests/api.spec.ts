@@ -35,9 +35,13 @@ describe("API integration (controllers only, services mocked)", () => {
       imports: [AppModule],
     })
       .overrideProvider(AlternativesService)
-      .useValue({ findAlternatives: jest.fn().mockResolvedValue(mockAlternatives) })
+      .useValue({
+        findAlternatives: (jest.fn() as any).mockResolvedValue(
+          mockAlternatives
+        ),
+      })
       .overrideProvider(SuppliersService)
-      .useValue({ search: jest.fn().mockResolvedValue(mockSuppliers) })
+      .useValue({ search: (jest.fn() as any).mockResolvedValue(mockSuppliers) })
       .overrideProvider(FundingService)
       .useValue({ searchFunding: jest.fn(), search: jest.fn() })
       .compile();
