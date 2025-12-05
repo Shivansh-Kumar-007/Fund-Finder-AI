@@ -266,5 +266,179 @@
       }
     ],
     "cachedAt": "2025-12-05T20:24:10.355Z"
+  },
+  "AI startup and research funding: grants, non-dilutive subsidies, accelerator stipends, and government programs for Dairy — Food & Beverage Manufacturing (dairy processing, milk powder production, value-added dairy products) in New Zealand ('skimmed milk powder' OR 'skim milk powder' OR 'powdered milk' OR 'milk powder' OR 'dairy powder') AND ('New Zealand' OR NZ OR Aotearoa) AND (grant OR grants OR subsidy OR subsidies OR 'tax incentive' OR 'tax incentives' OR 'low-interest loan' OR loan OR 'capital investment' OR 'R&D funding' OR 'research and development' OR 'innovation fund' OR 'research grant' OR 'export development' OR 'export grant' OR 'market development' OR 'sustainability grant' OR 'energy efficiency' OR 'emissions reduction' OR decarbonisation OR 'biosecurity funding' OR 'waste to value' OR 'circular economy' OR 'value-added processing' OR 'processing support' OR 'manufacturing support' OR 'regional economic development') AND (Callaghan Innovation OR 'New Zealand Trade and Enterprise' OR NZTE OR MPI OR 'Ministry for Primary Industries' OR MBIE OR 'SFF Futures' OR 'Provincial Growth Fund' OR 'regional council' OR 'primary sector' OR 'food & fibre') with application deadlines and eligibility::New Zealand::Dairy — Food & Beverage Manufacturing (dairy processing, milk powder production, value-added dairy products)::('skimmed milk powder' OR 'skim milk powder' OR 'powdered milk' OR 'milk powder' OR 'dairy powder') AND ('New Zealand' OR NZ OR Aotearoa) AND (grant OR grants OR subsidy OR subsidies OR 'tax incentive' OR 'tax incentives' OR 'low-interest loan' OR loan OR 'capital investment' OR 'R&D funding' OR 'research and development' OR 'innovation fund' OR 'research grant' OR 'export development' OR 'export grant' OR 'market development' OR 'sustainability grant' OR 'energy efficiency' OR 'emissions reduction' OR decarbonisation OR 'biosecurity funding' OR 'waste to value' OR 'circular economy' OR 'value-added processing' OR 'processing support' OR 'manufacturing support' OR 'regional economic development') AND (Callaghan Innovation OR 'New Zealand Trade and Enterprise' OR NZTE OR MPI OR 'Ministry for Primary Industries' OR MBIE OR 'SFF Futures' OR 'Provincial Growth Fund' OR 'regional council' OR 'primary sector' OR 'food & fibre')": {
+    "opportunities": [
+      {
+        "name": "AI Innovation Fund",
+        "website": "https://www.callaghaninnovation.govt.nz/funding/ai-innovation-fund",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Food & Beverage Manufacturing",
+        "fundingAmount": "Up to NZD 1 million",
+        "summary": "Funding for AI projects that enhance productivity and innovation in the food and beverage sector."
+      },
+      {
+        "name": "SFF Futures",
+        "website": "https://www.mpi.govt.nz/funding-and-programmes/sff-futures/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Dairy Processing",
+        "fundingAmount": "Varies",
+        "summary": "Supports innovative projects in the primary sector, including dairy, to improve sustainability and productivity."
+      },
+      {
+        "name": "Provincial Growth Fund",
+        "website": "https://www.mbie.govt.nz/business-and-employment/economic-development/regional-economic-development/provincial-growth-fund/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Dairy and Food Processing",
+        "fundingAmount": "Varies",
+        "summary": "Provides funding for projects that create jobs and stimulate economic growth in regional areas."
+      },
+      {
+        "name": "New Zealand Trade and Enterprise (NZTE) Grants",
+        "website": "https://www.nzte.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Food & Beverage",
+        "fundingAmount": "Varies",
+        "summary": "Offers grants and support for businesses looking to export and grow internationally."
+      },
+      {
+        "name": "Callaghan Innovation R&D Grants",
+        "website": "https://www.callaghaninnovation.govt.nz/funding/research-and-development-grants/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Dairy Processing",
+        "fundingAmount": "Up to 40% of eligible R&D costs",
+        "summary": "Provides funding for R&D projects in the dairy sector to foster innovation."
+      },
+      {
+        "name": "Callaghan Innovation Grants",
+        "website": "https://www.callaghaninnovation.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Dairy - Food & Beverage Manufacturing",
+        "fundingAmount": "Varies by program",
+        "summary": "Callaghan Innovation provides grants and funding for R&D and innovation in the dairy sector, including support for processing and value-added products."
+      },
+      {
+        "name": "New Zealand Trade and Enterprise (NZTE) Export Grants",
+        "website": "https://www.nzte.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Dairy - Food & Beverage Manufacturing",
+        "fundingAmount": "Up to $150,000",
+        "summary": "NZTE offers export grants to support New Zealand businesses in expanding their international market presence, including those in the dairy industry."
+      },
+      {
+        "name": "SFF Futures Fund",
+        "website": "https://www.mpi.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Dairy - Food & Beverage Manufacturing",
+        "fundingAmount": "Varies",
+        "summary": "The SFF Futures Fund supports innovative projects in the primary sector, including dairy, focusing on sustainability and value-added processing."
+      }
+    ],
+    "cachedAt": "2025-12-05T20:35:06.241Z"
+  },
+  "AI startup and research funding: grants, non-dilutive subsidies, accelerator stipends, and government programs for Dairy processing / Agribusiness (milk powder production) in New Zealand (\"skimmed milk powder\" OR \"skim milk powder\" OR \"skimmed milk\" OR \"skim milk\") AND (\"New Zealand\" OR NZ) AND (grant OR grants OR subsidy OR subsidies OR \"tax incentive\" OR \"tax credit\" OR loan OR loans OR funding OR investment OR \"research and development\" OR R&D OR \"export development\" OR \"market access\" OR sustainability OR decarbonisation OR \"energy efficiency\" OR \"capital support\") AND (dairy OR \"dairy processing\" OR \"milk powder\" OR \"food processing\" OR agribusiness OR \"primary sector\") AND (\"Ministry for Primary Industries\" OR MPI OR \"Callaghan Innovation\" OR \"New Zealand Trade and Enterprise\" OR NZTE OR \"Sustainable Food and Fibre Futures\" OR \"Provincial Growth Fund\" OR \"Regional Economic Development\" OR \"Our Land and Water\" OR \"low emissions\" OR \"supply chain resilience\") with application deadlines and eligibility::New Zealand::Dairy processing / Agribusiness (milk powder production)::(\"skimmed milk powder\" OR \"skim milk powder\" OR \"skimmed milk\" OR \"skim milk\") AND (\"New Zealand\" OR NZ) AND (grant OR grants OR subsidy OR subsidies OR \"tax incentive\" OR \"tax credit\" OR loan OR loans OR funding OR investment OR \"research and development\" OR R&D OR \"export development\" OR \"market access\" OR sustainability OR decarbonisation OR \"energy efficiency\" OR \"capital support\") AND (dairy OR \"dairy processing\" OR \"milk powder\" OR \"food processing\" OR agribusiness OR \"primary sector\") AND (\"Ministry for Primary Industries\" OR MPI OR \"Callaghan Innovation\" OR \"New Zealand Trade and Enterprise\" OR NZTE OR \"Sustainable Food and Fibre Futures\" OR \"Provincial Growth Fund\" OR \"Regional Economic Development\" OR \"Our Land and Water\" OR \"low emissions\" OR \"supply chain resilience\")": {
+    "opportunities": [],
+    "cachedAt": "2025-12-05T20:37:29.640Z"
+  },
+  "AI startup and research funding: grants, non-dilutive subsidies, accelerator stipends, and government programs for Dairy processing and manufacturing (agribusiness) in New Zealand (\"skimmed milk powder\" OR \"skim milk powder\" OR \"milk powder\" OR \"dairy powder\") AND (\"New Zealand\" OR NZ) AND (grant OR grants OR funding OR subsidy OR subsidies OR \"tax incentive\" OR \"tax credit\" OR \"R&D\" OR \"research and development\" OR \"innovation grant\" OR \"export grant\" OR \"export development\" OR \"capital investment\" OR \"production support\" OR \"sustainability grant\" OR \"low emissions\" OR \"energy efficiency\" OR \"clean technology\" OR \"food processing\" OR agribusiness) AND (\"Callaghan Innovation\" OR \"Ministry for Primary Industries\" OR MPI OR NZTE OR MBIE OR \"SFF Futures\" OR \"Primary Growth Partnership\" OR \"regional economic development\" OR \"provincial growth\" OR \"regional council\") with application deadlines and eligibility::New Zealand::Dairy processing and manufacturing (agribusiness)::(\"skimmed milk powder\" OR \"skim milk powder\" OR \"milk powder\" OR \"dairy powder\") AND (\"New Zealand\" OR NZ) AND (grant OR grants OR funding OR subsidy OR subsidies OR \"tax incentive\" OR \"tax credit\" OR \"R&D\" OR \"research and development\" OR \"innovation grant\" OR \"export grant\" OR \"export development\" OR \"capital investment\" OR \"production support\" OR \"sustainability grant\" OR \"low emissions\" OR \"energy efficiency\" OR \"clean technology\" OR \"food processing\" OR agribusiness) AND (\"Callaghan Innovation\" OR \"Ministry for Primary Industries\" OR MPI OR NZTE OR MBIE OR \"SFF Futures\" OR \"Primary Growth Partnership\" OR \"regional economic development\" OR \"provincial growth\" OR \"regional council\")": {
+    "opportunities": [
+      {
+        "name": "Callaghan Innovation",
+        "website": "https://www.callaghaninnovation.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agribusiness",
+        "fundingAmount": "Varies by project",
+        "summary": "Callaghan Innovation provides funding and support for R&D and innovation in New Zealand, particularly for startups and businesses in the agribusiness sector."
+      },
+      {
+        "name": "Ministry for Primary Industries (MPI)",
+        "website": "https://www.mpi.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agribusiness",
+        "fundingAmount": "Varies by program",
+        "summary": "MPI offers various funding programs and grants to support the growth and sustainability of the primary industries in New Zealand, including dairy processing."
+      },
+      {
+        "name": "SFF Futures",
+        "website": "https://www.mpi.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agribusiness",
+        "fundingAmount": "Up to $1 million",
+        "summary": "SFF Futures provides funding for innovative projects that enhance the sustainability and profitability of New Zealand's primary industries."
+      },
+      {
+        "name": "Primary Growth Partnership",
+        "website": "https://www.mpi.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agribusiness",
+        "fundingAmount": "Varies by project",
+        "summary": "The Primary Growth Partnership funds collaborative projects between the government and industry to drive innovation and growth in the primary sector."
+      },
+      {
+        "name": "NZTE (New Zealand Trade and Enterprise)",
+        "website": "https://www.nzte.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agribusiness",
+        "fundingAmount": "Varies by project",
+        "summary": "NZTE supports New Zealand businesses to grow internationally, including funding and resources for agribusinesses looking to export."
+      },
+      {
+        "name": "MBIE (Ministry of Business, Innovation and Employment)",
+        "website": "https://www.mbie.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agribusiness",
+        "fundingAmount": "Varies by program",
+        "summary": "MBIE provides various funding opportunities and support for innovation and business growth in New Zealand, including the agribusiness sector."
+      },
+      {
+        "name": "Regional Economic Development",
+        "website": "https://www.mbie.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agribusiness",
+        "fundingAmount": "Varies by project",
+        "summary": "Regional Economic Development initiatives provide funding and support for projects that enhance economic growth in specific regions, including agribusiness."
+      },
+      {
+        "name": "Provincial Growth Fund",
+        "website": "https://www.mbie.govt.nz/",
+        "applicableCountries": [
+          "New Zealand"
+        ],
+        "relevantIndustry": "Agribusiness",
+        "fundingAmount": "Varies by project",
+        "summary": "The Provincial Growth Fund invests in projects that create jobs and stimulate economic growth in provincial areas, including agribusiness initiatives."
+      }
+    ],
+    "cachedAt": "2025-12-05T20:38:39.969Z"
   }
 }

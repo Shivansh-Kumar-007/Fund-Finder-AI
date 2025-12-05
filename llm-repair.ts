@@ -26,28 +26,42 @@ export async function repairFundingSummary(
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   const instructions = `
-You are given raw content from web search (title/text/URL) and possibly a broken JSON summary.
-Return ONLY a JSON array of funding opportunity objects. Each object must include:
-- name (string)
-- website (string, absolute URL)
-- applicableCountries (array of strings; can be empty if unknown)
-- relevantIndustry (string; fallback to provided industry or "Artificial Intelligence" if unknown)
-- fundingAmount (string; optional, include when present)
-- summary (string; brief description)
+You are an expert in sustainable, lower-emission agriculture funding. You gather information from public, global, and regional sustainability programs, climate finance mechanisms, utility rebates, tax incentives, carbon market programs, and innovation/R&D grants relevant to agriculture.
 
-IMPORTANT FILTERING RULES:
-- ONLY include opportunities that are applicable to the target countries provided below.
-- If applicableCountries is specified in the source, it MUST include at least one of the target countries.
-- If applicableCountries cannot be determined from the source, include the opportunity with an empty array.
-- Do NOT include opportunities that explicitly mention OTHER countries but NOT the target countries.
-- Do NOT include funding opportunities that are OUTDATED or EXPIRED (older than 4 years, or clearly marked as closed/past deadlines).
-- SKIP any content that references programs from before 2021 or has expired application deadlines.
+Extract funding opportunities from the provided web search content and return ONLY a JSON array. Each object must include:
+- name (string): Name of the funding program or grant
+- website (string): Direct URL to the funding opportunity
+- applicableCountries (array of strings): Countries where this funding is available; can be empty if unknown
+- relevantIndustry (string): Industry or sector (agriculture, food processing, manufacturing, etc.)
+- fundingAmount (string, optional): Amount or range of funding available
+- summary (string): Brief description covering what the funding supports and key application requirements
 
-Other Rules:
-- Do NOT invent values not implied by the text; if a field is unknown, use an empty string (or empty array for countries).
-- Prefer the provided URL for website when none is found in the text.
-- Keep summaries under 600 characters.
-- Output must be valid JSON and nothing else.`;
+SCOPE & INCLUSION:
+- Include sustainability programs, climate finance, carbon markets, tax incentives, utility rebates
+- Include innovation funding (R&D grants, pilot/demonstration funds, commercialization support) when relevant to lower-emission agriculture
+- Include programs supporting sustainable production, emissions reduction, renewable energy in agriculture, circular economy
+- EXCLUDE general innovation funds without clear sustainability or agricultural connection
+- EXCLUDE unrelated business/tech grants that don't address climate, emissions, or sustainable agriculture
+
+FILTERING RULES:
+- ONLY include opportunities applicable to TARGET COUNTRIES specified below
+- If applicableCountries is mentioned in source, it MUST include at least one target country
+- If country applicability cannot be determined, include with empty array
+- Do NOT include opportunities explicitly limited to OTHER countries (not in target list)
+- Do NOT include OUTDATED/EXPIRED programs (older than 1 year, before 2022, or closed deadlines)
+- SKIP webpages or content dated before 2022
+- SKIP any funding with expired application dates or marked as closed/historical
+- Only include active, current, or upcoming funding opportunities
+
+ACCURACY RULES:
+- Do NOT invent information not present in the source text
+- If a field is unknown/uncertain, use empty string or empty array
+- When details are missing, note gaps clearly in the summary (e.g., "Amount not specified")
+- Use the provided URL for website when none found in text
+- Keep summaries under 600 characters but ensure clarity
+- Output must be valid JSON only, no markdown or explanation
+
+Focus on practical, real-world funding for agricultural operations seeking climate-aligned support.`;
 
   const contextParts = [
     input.summary ? `Broken summary: ${input.summary}` : null,

@@ -213,7 +213,7 @@ export async function findFundingOpportunities(
           ? (r as any).highlights.join(" ")
           : ""),
       countries: normalizedCountries,
-      industry: options.industry ?? "Artificial Intelligence",
+      industry: options.industry,
     });
 
     opportunities.push(...repaired);
