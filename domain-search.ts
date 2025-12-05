@@ -1,5 +1,5 @@
 import { DEFAULT_NUM_RESULTS } from "./config";
-import { exa } from "./exa-client";
+import { getExa } from "./exa-client";
 import {
   FundingOpportunity,
   fundingOpportunitySchema,
@@ -121,6 +121,7 @@ export async function findFundingOpportunities(
   const query = options.query ?? buildFundingQuery(options);
   const numResults = options.numResults ?? DEFAULT_NUM_RESULTS;
   const normalizedCountries = normalizeCountries(options.countries);
+  const exa = getExa();
 
   const res = await exa.searchAndContents(query, {
     summary: { schema: fundingSummarySchema },
