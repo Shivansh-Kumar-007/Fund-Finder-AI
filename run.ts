@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { dirname } from "node:path";
 import { mkdirSync, writeFileSync } from "node:fs";
 
