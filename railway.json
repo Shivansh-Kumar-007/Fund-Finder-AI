@@ -1,4 +1,0 @@
-{
-  "build": "npm ci",
-  "start": "npm start"
-}
