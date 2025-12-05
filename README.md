@@ -17,7 +17,7 @@ npm install
 
 ```bash
 EXA_API_KEY=your_key npm start -- --countries "US,Canada" --industry "healthcare AI" --limit 10
-# or set values in .env (EXA_API_KEY, PORT) and just run:
+# or set values in .env (EXA_API_KEY, OPENAI_API_KEY, PORT) and just run:
 # npm start -- --countries "US,Canada" --industry "healthcare AI" --limit 10
 ```
 
@@ -38,7 +38,7 @@ Start the API (default port 3000):
 
 ```bash
 EXA_API_KEY=your_key npm run start:api
-# or use .env with EXA_API_KEY and optional PORT
+# or use .env with EXA_API_KEY, OPENAI_API_KEY, and optional PORT
 ```
 
 GET `/funding` query params:

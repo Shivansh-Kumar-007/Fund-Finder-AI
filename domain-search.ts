@@ -4,6 +4,7 @@ import {
   FundingOpportunity,
   fundingOpportunitySchema,
 } from "./funding-output-schema";
+import { repairFundingSummary } from "./llm-repair";
 
 export type FundingSearchOptions = {
   query?: string;
@@ -119,6 +120,7 @@ export async function findFundingOpportunities(
 ): Promise<FundingOpportunity[]> {
   const query = options.query ?? buildFundingQuery(options);
   const numResults = options.numResults ?? DEFAULT_NUM_RESULTS;
+  const normalizedCountries = normalizeCountries(options.countries);
 
   const res = await exa.searchAndContents(query, {
     summary: { schema: fundingSummarySchema },
@@ -133,11 +135,22 @@ export async function findFundingOpportunities(
 
   for (const r of res.results) {
     const structured = parseSummary((r as any).summary);
-    opportunities.push(
-      ...structured.filter(
-        (candidate): candidate is FundingOpportunity => Boolean(candidate)
-      )
-    );
+    if (structured.length > 0) {
+      opportunities.push(...structured);
+      continue;
+    }
+
+    // Repair using LLM when schema parsing fails.
+    const repaired = await repairFundingSummary({
+      summary: (r as any).summary,
+      url: r.url,
+      title: r.title,
+      text: r.text ?? (Array.isArray((r as any).highlights) ? (r as any).highlights.join(" ") : ""),
+      countries: normalizedCountries,
+      industry: options.industry ?? "Artificial Intelligence",
+    });
+
+    opportunities.push(...repaired);
   }
 
   return dedupe(opportunities).slice(0, numResults);
