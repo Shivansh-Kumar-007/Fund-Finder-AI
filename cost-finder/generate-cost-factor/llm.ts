@@ -377,6 +377,52 @@ function attachQualityScores(response: LlmResponse): LlmResponse {
   };
 }
 
+function pruneOutlierSources(response: LlmResponse): LlmResponse {
+  if (!response.sources || response.sources.length < 3) {
+    return response;
+  }
+
+  const numericPrices = response.sources
+    .map((s) => (typeof s.rawPriceUsdPerKg === "number" ? s.rawPriceUsdPerKg : null))
+    .filter((v): v is number => v !== null)
+    .sort((a, b) => a - b);
+
+  if (numericPrices.length < 2) {
+    return response;
+  }
+
+  const mid = Math.floor(numericPrices.length / 2);
+  const median =
+    numericPrices.length % 2 === 0
+      ? (numericPrices[mid - 1] + numericPrices[mid]) / 2
+      : numericPrices[mid];
+
+  // Treat anything more than 5x above or below the median as an outlier.
+  const lowerBound = median / 5;
+  const upperBound = median * 5;
+
+  const filteredSources = response.sources.filter((s) => {
+    if (typeof s.rawPriceUsdPerKg !== "number") return true;
+    return s.rawPriceUsdPerKg >= lowerBound && s.rawPriceUsdPerKg <= upperBound;
+  });
+
+  if (filteredSources.length === 0) {
+    return response;
+  }
+
+  if (filteredSources.length !== response.sources.length) {
+    console.log(
+      "Filtered outlier sources in cost response",
+      response.sources.length - filteredSources.length
+    );
+  }
+
+  return {
+    ...response,
+    sources: filteredSources,
+  };
+}
+
 function makeEmptyResponse(): LlmResponse {
   return {
     localCurrencyCode: "USD",
@@ -446,8 +492,19 @@ export async function getCostEstimate(
   const promptResults = pickResultsForModel(costfulResults);
 
   // Ask the LLM to aggregate, then attach deterministic quality scoring and cache.
-  const response = await callModel(target, promptResults);
-  const responseWithQuality = attachQualityScores(response);
+  let response: LlmResponse;
+  try {
+    response = await callModel(target, promptResults);
+  } catch (error) {
+    console.error("Error generating cost estimate with model:", error);
+    const fallback = makeEmptyResponse();
+    llmCache[cacheKey] = fallback;
+    persistLlmCache();
+    return { response: fallback, fromCache: false };
+  }
+
+  const responsePruned = pruneOutlierSources(response);
+  const responseWithQuality = attachQualityScores(responsePruned);
   llmCache[cacheKey] = responseWithQuality;
   persistLlmCache();
   return { response: responseWithQuality, fromCache: false };
