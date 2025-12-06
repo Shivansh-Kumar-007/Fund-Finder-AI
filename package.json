@@ -8,7 +8,7 @@
   },
   "main": "run.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "node --max-old-space-size=4096 node_modules/typescript/bin/tsc",
     "start": "node dist/src/server.js",
     "start:dev": "tsx watch src/server.ts",
     "start:prod": "node dist/src/server.js",
