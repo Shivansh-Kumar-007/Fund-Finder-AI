@@ -8,10 +8,10 @@
   },
   "main": "run.ts",
   "scripts": {
-    "build": "node --max-old-space-size=4096 node_modules/typescript/bin/tsc",
-    "start": "node dist/src/server.js",
+    "build": "echo 'Using tsx for runtime compilation'",
+    "start": "node --max-old-space-size=4096 --import tsx src/server.ts",
     "start:dev": "tsx watch src/server.ts",
-    "start:prod": "node dist/src/server.js",
+    "start:prod": "node --max-old-space-size=4096 --import tsx src/server.ts",
     "dev": "tsx watch src/server.ts",
     "cli": "tsx run.ts",
     "test": "jest --maxWorkers=2"

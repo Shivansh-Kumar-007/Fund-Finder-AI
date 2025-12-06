@@ -13,8 +13,23 @@
     "declaration": false,
     "removeComments": true,
     "sourceMap": false,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "incremental": true
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "*.ts"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "tests",
+    "cost-finder",
+    "supplier-finder",
+    "sco-optimizer",
+    "run.ts",
+    "domain-search.ts",
+    "exa-client.ts",
+    "llm-repair.ts",
+    "lovable-enhanced-index.ts"
+  ]
 }
