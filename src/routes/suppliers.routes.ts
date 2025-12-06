@@ -58,6 +58,16 @@ router.get("/", async (req: Request, res: Response) => {
       suppliers,
     };
 
+    if (suppliers.length === 0) {
+      console.log(`${LOG_LABEL} no suppliers returned`);
+    } else {
+      const sample = suppliers.slice(0, 3);
+      console.log(
+        `${LOG_LABEL} supplier sample (showing ${sample.length} of ${suppliers.length})`
+      );
+      console.dir(sample, { depth: null });
+    }
+
     console.log(`${LOG_LABEL} response`, {
       ingredient,
       count: responsePayload.count,

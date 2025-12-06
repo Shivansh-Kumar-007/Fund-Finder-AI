@@ -82,6 +82,16 @@ router.get("/", async (req: Request, res: Response) => {
       opportunities,
     };
 
+    if (opportunities.length === 0) {
+      console.log(`${LOG_LABEL} no opportunities returned`);
+    } else {
+      const sample = opportunities.slice(0, 3);
+      console.log(
+        `${LOG_LABEL} opportunity sample (showing ${sample.length} of ${opportunities.length})`
+      );
+      console.dir(sample, { depth: null });
+    }
+
     console.log(`${LOG_LABEL} response`, {
       queryUsed,
       count: responsePayload.count,

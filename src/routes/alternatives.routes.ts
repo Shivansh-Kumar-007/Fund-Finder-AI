@@ -56,6 +56,16 @@ router.get("/", async (req: Request, res: Response) => {
       alternatives,
     };
 
+    if (alternatives.length === 0) {
+      console.log(`${LOG_LABEL} no alternatives returned`);
+    } else {
+      const sample = alternatives.slice(0, 3);
+      console.log(
+        `${LOG_LABEL} alternatives sample (showing ${sample.length} of ${alternatives.length})`
+      );
+      console.dir(sample, { depth: null });
+    }
+
     console.log(`${LOG_LABEL} response`, {
       ingredient,
       location,

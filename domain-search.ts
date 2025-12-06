@@ -185,10 +185,9 @@ export async function findFundingOpportunities(
   const cacheKey = makeCacheKey(options);
   const cached = fundingCache[cacheKey];
 
-  // Return cached result if available
+  // Cache hit, but still re-query Exa to keep results fresh.
   if (cached) {
-    console.log("Returning cached funding opportunities");
-    return cached.opportunities;
+    console.log("Cache hit; refreshing funding opportunities from Exa");
   }
 
   const query = buildFundingQuery(options);
