@@ -37,16 +37,6 @@ router.get("/", async (req: Request, res: Response) => {
           ingredient: ingredientName,
         });
 
-    console.log(`${LOG_LABEL} request`, {
-      query: query ?? null,
-      queryUsed,
-      countries: countriesArray,
-      industry: industry ?? null,
-      keywords: keywords ?? null,
-      ingredient: ingredientName ?? null,
-      limit: numResults,
-    });
-
     let opportunities;
     try {
       opportunities = await findFundingOpportunities({
@@ -81,22 +71,6 @@ router.get("/", async (req: Request, res: Response) => {
       count: opportunities.length,
       opportunities,
     };
-
-    if (opportunities.length === 0) {
-      console.log(`${LOG_LABEL} no opportunities returned`);
-    } else {
-      const sample = opportunities.slice(0, 3);
-      console.log(
-        `${LOG_LABEL} opportunity sample (showing ${sample.length} of ${opportunities.length})`
-      );
-      console.dir(sample, { depth: null });
-    }
-
-    console.log(`${LOG_LABEL} response`, {
-      queryUsed,
-      count: responsePayload.count,
-      limit: responsePayload.input.limit,
-    });
 
     res.json(responsePayload);
   } catch (error) {

@@ -115,3 +115,50 @@ export const FundingRequestSchema = z.object({
 });
 
 export const FundingDirectResponseSchema = FundingResponseSchema;
+
+// -----------------------------
+// All-in-one (alternatives -> suppliers + costs + funding)
+// -----------------------------
+export const AllInOneResponseSchema = z.object({
+  input: AlternativesRequestSchema,
+  results: z.object({
+    count: z.number(),
+    alternatives: z.array(
+      z.object({
+        alternative: AlternativeSchema,
+        suppliers: z.object({
+          count: z.number(),
+          suppliers: z.array(SupplierSchema),
+          error: z.string().optional(),
+        }),
+        costs: z.object({
+          estimate: z
+            .object({
+              ingredient: z.string(),
+              location: z.string(),
+              costInUSD: z.number().nullable(),
+              costInLocalCurrency: z.number().nullable(),
+              localCurrencyCode: z.string().nullable(),
+              weightUnits: z.string().nullable(),
+              qualityScore: z.number().nullable(),
+              qualityBand: z.string().nullable(),
+              scoreJustification: z.string().nullable(),
+              sources: z.any().optional(),
+              fromCache: z.boolean(),
+            })
+            .optional(),
+          funding: z
+            .object({
+              count: z.number(),
+              opportunities: z.array(FundingOpportunitySchema),
+              queryUsed: z.string(),
+              error: z.string().optional(),
+            })
+            .optional(),
+          error: z.string().optional(),
+        }),
+      })
+    ),
+    error: z.string().optional(),
+  }),
+});

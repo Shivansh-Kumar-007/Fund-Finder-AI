@@ -15,13 +15,6 @@ router.get("/", async (req: Request, res: Response) => {
         .json({ error: "ingredient and location are required" });
     }
 
-    console.log(`${LOG_LABEL} request`, {
-      ingredient,
-      location,
-      productDescription: productDescription ?? "",
-      ingredientFunction: ingredientFunction ?? null,
-    });
-
     let alternatives;
     try {
       alternatives = await getIngredientAlternatives({
@@ -55,22 +48,6 @@ router.get("/", async (req: Request, res: Response) => {
       count: alternatives.length,
       alternatives,
     };
-
-    if (alternatives.length === 0) {
-      console.log(`${LOG_LABEL} no alternatives returned`);
-    } else {
-      const sample = alternatives.slice(0, 3);
-      console.log(
-        `${LOG_LABEL} alternatives sample (showing ${sample.length} of ${alternatives.length})`
-      );
-      console.dir(sample, { depth: null });
-    }
-
-    console.log(`${LOG_LABEL} response`, {
-      ingredient,
-      location,
-      count: responsePayload.count,
-    });
 
     res.json(responsePayload);
   } catch (error) {

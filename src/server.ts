@@ -4,6 +4,7 @@ import fundingRoutes from "./routes/funding.routes";
 import costsRoutes from "./routes/costs.routes";
 import suppliersRoutes from "./routes/suppliers.routes";
 import alternativesRoutes from "./routes/alternatives.routes";
+import allRoutes from "./routes/all.routes";
 
 const app = express();
 
@@ -30,15 +31,9 @@ app.use("/funding", fundingRoutes);
 app.use("/costs", costsRoutes);
 app.use("/suppliers", suppliersRoutes);
 app.use("/alternatives", alternativesRoutes);
+app.use("/all", allRoutes);
 
 // Start server
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
-app.listen(port, () => {
-  console.log(`🚀 Fund-Finder API listening on http://localhost:${port}`);
-  console.log(
-    `Environment: EXA_API_KEY=${
-      process.env.EXA_API_KEY ? "✓" : "✗"
-    } | OPENAI_API_KEY=${process.env.OPENAI_API_KEY ? "✓" : "✗"}`
-  );
-});
+app.listen(port, () => {});

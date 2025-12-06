@@ -103,14 +103,6 @@ router.get("/", async (req: Request, res: Response) => {
       year: new Date().getFullYear(),
     };
 
-    console.log(`${LOG_LABEL} request`, {
-      ingredient: target.ingredientName,
-      location: target.locationName,
-      includeFunding: includeFunding ?? "false",
-      industry: industry ?? null,
-      keywords: keywords ?? null,
-    });
-
     let estimate, fromCache;
     try {
       const result = await getCostEstimate(target);
@@ -180,44 +172,6 @@ router.get("/", async (req: Request, res: Response) => {
         };
       }
     }
-
-    console.log(`${LOG_LABEL} estimate detail`, {
-      ingredient: response.estimate.ingredient,
-      location: response.estimate.location,
-      costInUSD: response.estimate.costInUSD,
-      costInLocalCurrency: response.estimate.costInLocalCurrency,
-      localCurrencyCode: response.estimate.localCurrencyCode,
-      weightUnits: response.estimate.weightUnits,
-      qualityBand: response.estimate.qualityBand,
-      fromCache: response.estimate.fromCache,
-    });
-
-    if (response.estimate.sources?.length) {
-      const sampleSources = response.estimate.sources.slice(0, 3);
-      console.log(
-        `${LOG_LABEL} sources sample (showing ${sampleSources.length} of ${response.estimate.sources.length})`
-      );
-      console.dir(sampleSources, { depth: null });
-    }
-
-    if (response.funding?.opportunities?.length) {
-      const sampleFunding = response.funding.opportunities.slice(0, 3);
-      console.log(
-        `${LOG_LABEL} funding sample (showing ${sampleFunding.length} of ${response.funding.opportunities.length})`
-      );
-      console.dir(sampleFunding, { depth: null });
-    }
-
-    console.log(`${LOG_LABEL} response`, {
-      ingredient: response.estimate.ingredient,
-      location: response.estimate.location,
-      costInUSD: response.estimate.costInUSD,
-      weightUnits: response.estimate.weightUnits,
-      qualityBand: response.estimate.qualityBand,
-      fundingIncluded: Boolean(response.funding),
-      fundingCount: response.funding?.count ?? 0,
-      fromCache: response.estimate.fromCache,
-    });
 
     res.json(response);
   } catch (error) {

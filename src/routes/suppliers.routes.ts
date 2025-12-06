@@ -21,13 +21,6 @@ router.get("/", async (req: Request, res: Response) => {
 
     const numLimit = limit ? Math.max(1, parseInt(String(limit))) : undefined;
 
-    console.log(`${LOG_LABEL} request`, {
-      ingredient,
-      countries: countriesArray,
-      keywords: keywords ?? "",
-      limit: numLimit ?? null,
-    });
-
     let suppliers;
     try {
       suppliers = await findSuppliers({
@@ -57,22 +50,6 @@ router.get("/", async (req: Request, res: Response) => {
       count: suppliers.length,
       suppliers,
     };
-
-    if (suppliers.length === 0) {
-      console.log(`${LOG_LABEL} no suppliers returned`);
-    } else {
-      const sample = suppliers.slice(0, 3);
-      console.log(
-        `${LOG_LABEL} supplier sample (showing ${sample.length} of ${suppliers.length})`
-      );
-      console.dir(sample, { depth: null });
-    }
-
-    console.log(`${LOG_LABEL} response`, {
-      ingredient,
-      count: responsePayload.count,
-      limit: responsePayload.input.limit ?? null,
-    });
 
     res.json(responsePayload);
   } catch (error) {
