@@ -9,9 +9,9 @@
   "main": "run.ts",
   "scripts": {
     "build": "tsc",
-    "start": "node --max-old-space-size=4096 dist/src/server.js",
+    "start": "node dist/src/server.js",
     "start:dev": "tsx watch src/server.ts",
-    "start:prod": "node --max-old-space-size=4096 dist/src/server.js",
+    "start:prod": "node dist/src/server.js",
     "dev": "tsx watch src/server.ts",
     "cli": "tsx run.ts",
     "test": "jest --maxWorkers=2"
