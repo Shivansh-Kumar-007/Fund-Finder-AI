@@ -6,6 +6,7 @@ import { openai } from "@ai-sdk/openai";
 import { OPENAI_MODEL } from "../../config";
 
 const router = Router();
+const LOG_LABEL = "[Costs]";
 
 async function generateFundingSearchParams(
   estimate: any,
@@ -102,6 +103,14 @@ router.get("/", async (req: Request, res: Response) => {
       year: new Date().getFullYear(),
     };
 
+    console.log(`${LOG_LABEL} request`, {
+      ingredient: target.ingredientName,
+      location: target.locationName,
+      includeFunding: includeFunding ?? "false",
+      industry: industry ?? null,
+      keywords: keywords ?? null,
+    });
+
     let estimate, fromCache;
     try {
       const result = await getCostEstimate(target);
@@ -171,6 +180,17 @@ router.get("/", async (req: Request, res: Response) => {
         };
       }
     }
+
+    console.log(`${LOG_LABEL} response`, {
+      ingredient: response.estimate.ingredient,
+      location: response.estimate.location,
+      costInUSD: response.estimate.costInUSD,
+      weightUnits: response.estimate.weightUnits,
+      qualityBand: response.estimate.qualityBand,
+      fundingIncluded: Boolean(response.funding),
+      fundingCount: response.funding?.count ?? 0,
+      fromCache: response.estimate.fromCache,
+    });
 
     res.json(response);
   } catch (error) {

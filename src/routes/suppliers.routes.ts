@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { findSuppliers } from "../../supplier-finder/supplier-search";
 
 const router = Router();
+const LOG_LABEL = "[Suppliers]";
 
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -19,6 +20,13 @@ router.get("/", async (req: Request, res: Response) => {
       : [];
 
     const numLimit = limit ? Math.max(1, parseInt(String(limit))) : undefined;
+
+    console.log(`${LOG_LABEL} request`, {
+      ingredient,
+      countries: countriesArray,
+      keywords: keywords ?? "",
+      limit: numLimit ?? null,
+    });
 
     let suppliers;
     try {
@@ -39,7 +47,7 @@ router.get("/", async (req: Request, res: Response) => {
       });
     }
 
-    res.json({
+    const responsePayload = {
       input: {
         ingredient,
         countries: countriesArray,
@@ -48,7 +56,15 @@ router.get("/", async (req: Request, res: Response) => {
       },
       count: suppliers.length,
       suppliers,
+    };
+
+    console.log(`${LOG_LABEL} response`, {
+      ingredient,
+      count: responsePayload.count,
+      limit: responsePayload.input.limit ?? null,
     });
+
+    res.json(responsePayload);
   } catch (error) {
     console.error("Error in /suppliers:", error);
     res.status(500).json({ error: "Internal server error" });

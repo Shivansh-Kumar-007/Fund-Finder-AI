@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { getIngredientAlternatives } from "../../sco-optimizer/get-ingredient-alternatives";
 
 const router = Router();
+const LOG_LABEL = "[Alternatives]";
 
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -13,6 +14,13 @@ router.get("/", async (req: Request, res: Response) => {
         .status(400)
         .json({ error: "ingredient and location are required" });
     }
+
+    console.log(`${LOG_LABEL} request`, {
+      ingredient,
+      location,
+      productDescription: productDescription ?? "",
+      ingredientFunction: ingredientFunction ?? null,
+    });
 
     let alternatives;
     try {
@@ -37,7 +45,7 @@ router.get("/", async (req: Request, res: Response) => {
       });
     }
 
-    res.json({
+    const responsePayload = {
       input: {
         ingredient,
         location,
@@ -46,7 +54,15 @@ router.get("/", async (req: Request, res: Response) => {
       },
       count: alternatives.length,
       alternatives,
+    };
+
+    console.log(`${LOG_LABEL} response`, {
+      ingredient,
+      location,
+      count: responsePayload.count,
     });
+
+    res.json(responsePayload);
   } catch (error) {
     console.error("Error in /alternatives:", error);
     res.status(500).json({ error: "Internal server error" });

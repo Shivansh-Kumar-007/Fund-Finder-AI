@@ -6,6 +6,7 @@ import {
 import { DEFAULT_NUM_RESULTS } from "../../config";
 
 const router = Router();
+const LOG_LABEL = "[Funding]";
 
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -36,6 +37,16 @@ router.get("/", async (req: Request, res: Response) => {
           ingredient: ingredientName,
         });
 
+    console.log(`${LOG_LABEL} request`, {
+      query: query ?? null,
+      queryUsed,
+      countries: countriesArray,
+      industry: industry ?? null,
+      keywords: keywords ?? null,
+      ingredient: ingredientName ?? null,
+      limit: numResults,
+    });
+
     let opportunities;
     try {
       opportunities = await findFundingOpportunities({
@@ -57,7 +68,7 @@ router.get("/", async (req: Request, res: Response) => {
       });
     }
 
-    res.json({
+    const responsePayload = {
       input: {
         query: query ?? null,
         countries: countriesArray,
@@ -69,7 +80,15 @@ router.get("/", async (req: Request, res: Response) => {
       queryUsed,
       count: opportunities.length,
       opportunities,
+    };
+
+    console.log(`${LOG_LABEL} response`, {
+      queryUsed,
+      count: responsePayload.count,
+      limit: responsePayload.input.limit,
     });
+
+    res.json(responsePayload);
   } catch (error) {
     console.error("Error in /funding:", error);
     res.status(500).json({ error: "Internal server error" });
