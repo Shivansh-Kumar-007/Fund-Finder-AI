@@ -57,3 +57,42 @@ Example:
 ```
 http://localhost:3000/funding?countries=US,Canada&industry=healthcare%20AI&limit=8
 ```
+
+## All-in-one (alternatives-style params, with chained lookups)
+`GET /all`
+
+Query params (same as `/alternatives`):
+- `ingredient` (required)
+- `location` (required)
+- `productDescription` (optional)
+- `ingredientFunction` (optional)
+
+Flow:
+1) Find alternatives for the requested ingredient/location.
+2) For each alternative: fetch suppliers (scoped to that alternative’s country), fetch costs, and fetch funding based on that alternative.
+
+Example:
+```
+http://localhost:3000/all?ingredient=skimmed%20milk%20powder&location=New%20Zealand&productDescription=ice%20cream&ingredientFunction=protein%20source
+```
+
+Response shape (per alternative bundle):
+```jsonc
+{
+  "input": { "ingredient": "...", "location": "...", "productDescription": "...", "ingredientFunction": "..." },
+  "results": {
+    "count": 2,
+    "alternatives": [
+      {
+        "alternative": { /* AlternativeResult */ },
+        "suppliers": { "count": 3, "suppliers": [/* Supplier[] */], "error": null },
+        "costs": {
+          "estimate": { /* cost summary */ },
+          "funding": { "count": 4, "opportunities": [/* FundingOpportunity[] */], "queryUsed": "..." , "error": null },
+          "error": null
+        }
+      }
+    ]
+  }
+}
+```
